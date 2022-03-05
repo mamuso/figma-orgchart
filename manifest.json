@@ -1,0 +1,10 @@
+{
+  "api": "1.0.0",
+  "editorType": [
+    "figma"
+  ],
+  "id": "figma-json-orgchart",
+  "name": "JSON to orgchart",
+  "main": "build/main.js",
+  "ui": "build/ui.js"
+}
