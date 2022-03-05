@@ -4,12 +4,12 @@ import { h } from 'preact'
 import { useCallback, useState } from 'preact/hooks'
 import { CloseHandler, CreateChartHandler } from './types'
 
-let teamjson: Promise<string | void>
-
 function Plugin() {
+  // States for 
   const [chartData, setChartData] = useState<string>('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
+  // Submit the chart data to the plugin
   const handleCreateChartButtonClick = useCallback(
     function () {
       if (chartData !== null) {
@@ -19,7 +19,8 @@ function Plugin() {
     },
     [chartData]
   )
-
+  
+  // Close the plugin
   const handleCloseButtonClick = useCallback(
     function () {
       emit<CloseHandler>('CLOSE')
@@ -27,6 +28,7 @@ function Plugin() {
     []
   )
 
+  // Message management
   window.onmessage = async (event) => {
     if (event.data.pluginMessage.type === 'getAvatarURL') {
       const url: string = `https://ogtojsonservice.vercel.app/api?url=https://github.com/${event.data.pluginMessage.alias}`;
@@ -47,7 +49,7 @@ function Plugin() {
   return (
     <Container>
       <VerticalSpace space="large" />
-      <Text bold>Org chart json</Text>
+      <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>learn more</a></Text>
       <VerticalSpace space="small" />
       <TextboxMultiline
         disabled={loading === true}
