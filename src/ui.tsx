@@ -1,4 +1,4 @@
-import { Button, Columns, Container, Inline, render, Text, TextboxMultiline, VerticalSpace } from '@create-figma-plugin/ui'
+import { Button, Container, Inline, render, Text, TextboxMultiline, VerticalSpace } from '@create-figma-plugin/ui'
 import { emit } from '@create-figma-plugin/utilities'
 import { h } from 'preact'
 import { useCallback, useState } from 'preact/hooks'
@@ -7,13 +7,13 @@ import { CloseHandler, CreateChartHandler } from './types'
 function Plugin() {
   // States for 
   const [chartData, setChartData] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // Submit the chart data to the plugin
   const handleCreateChartButtonClick = useCallback(
     function () {
       if (chartData !== null) {
-        setLoading(true)
+        setIsLoading(true)
         emit<CreateChartHandler>('CREATE_CHART', chartData)
       }
     },
@@ -52,7 +52,7 @@ function Plugin() {
       <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>learn more</a></Text>
       <VerticalSpace space="small" />
       <TextboxMultiline
-        disabled={loading === true}
+        disabled={isLoading === true}
         id="chartData"
         rows={20}
         onValueInput={setChartData}
@@ -64,7 +64,7 @@ function Plugin() {
           Close
         </Button>
         <Button onClick={handleCreateChartButtonClick}
-          loading={loading === true}>
+          loading={isLoading === true}>
           Create chart
         </Button>
       </Inline>
