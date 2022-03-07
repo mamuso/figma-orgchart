@@ -2,6 +2,21 @@ import { convertHexColorToRgbColor, once, showUI } from '@create-figma-plugin/ut
 import { CloseHandler, CreateChartHandler } from './types'
 
 /* -------------------------------------------------------------------------
+  Default config object
+------------------------------------------------------------------------- */
+let config: object = {
+  alias: true,
+  meta: true,
+  ogurl: 'https://github.com/',
+  color: {
+    border: 'EEECF3',
+    background: 'FFFFFF',
+    primarytext: '444D56',
+    secondarytext: 'FFFFFF',
+  },
+}
+
+/* -------------------------------------------------------------------------
   Color Variables
   TODO: Make them overridable via config
 ------------------------------------------------------------------------- */

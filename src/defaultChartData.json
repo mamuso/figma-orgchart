@@ -1,3 +1,27 @@
 {
-  "team": "test"
+  "config": {
+    "alias": false,
+    "meta": false,
+    "ogurl": "https://twitter.com/",
+    "color": {
+      "border": "ffccdd",
+      "background": "ffcc00",
+      "primarytext": "333333",
+      "secondarytext": "CCCCCC"
+    }
+  },
+  "team": "Team Rocket",
+  "manager": {
+    "name": "John Smith",
+    "alias": "@mamuso",
+    "meta": ""
+  },
+  "teams": [
+    {
+      "team": "Pickle"
+    },
+    {
+      "team": "Octopus"
+    }
+  ]
 }
