@@ -3,8 +3,9 @@ import { CloseHandler, CreateChartHandler } from './types'
 
 /* -------------------------------------------------------------------------
   Default config object
+  TODO: create type for config
 ------------------------------------------------------------------------- */
-let config: object = {
+let config: any = {
   alias: true,
   meta: true,
   ogurl: 'https://github.com/',
@@ -240,6 +241,20 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
 ------------------------------------------------------------------------- */
 export async function process(key: any, value: any) {
   switch (key) {
+    /* ------------------------------------------------------
+      Update default config
+     ------------------------------------------------------ */
+    case 'config':
+      if (value.alias && value.alias != config.alias) config.alias = value.alias
+      if (value.meta && value.meta != config.meta) config.meta = value.meta
+      if (value.ogurl && value.ogurl != config.ogurl) config.ogurl = value.ogurl
+      if (value.color) {
+        if (value.color.border && value.color.border != config.color.border) config.color.border = value.color.border
+        if (value.color.background && value.color.background != config.color.background) config.color.background = value.color.background
+        if (value.color.primarytext && value.color.primarytext != config.color.primarytext) config.color.primarytext = value.color.primarytext
+        if (value.color.secondarytext && value.color.secondarytext != config.color.secondarytext) config.color.secondarytext = value.color.secondarytext
+      }
+      break
     /* ------------------------------------------------------
      Create layer for each team
      ------------------------------------------------------ */
