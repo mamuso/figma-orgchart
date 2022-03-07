@@ -255,6 +255,7 @@ export async function process(key: any, value: any) {
         if (value.color.secondarytext && value.color.secondarytext != config.color.secondarytext) config.color.secondarytext = value.color.secondarytext
       }
       break
+
     /* ------------------------------------------------------
      Create layer for each team
      ------------------------------------------------------ */
@@ -328,6 +329,9 @@ export async function process(key: any, value: any) {
   jsonElements = jsonElements + 1
 }
 
+/* -------------------------------------------------------------------------
+  Traverse JSON
+------------------------------------------------------------------------- */
 export async function traverse(json: any) {
   for (var i in json) {
     process(i, json[i])
