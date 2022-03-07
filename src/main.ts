@@ -1,14 +1,20 @@
 import { convertHexColorToRgbColor, once, showUI } from '@create-figma-plugin/utilities'
 import { CloseHandler, CreateChartHandler } from './types'
 
-// Color variables
+/* -------------------------------------------------------------------------
+  Color Variables
+  TODO: Make them overridable via config
+------------------------------------------------------------------------- */
 const fallbackColor = { r: 0, g: 0, b: 0 }
 const borderColor = convertHexColorToRgbColor('EEECF3') || fallbackColor
 const textColor = convertHexColorToRgbColor('444D56') || fallbackColor
 const secondarytextColor = convertHexColorToRgbColor('A1A6AA') || fallbackColor
 const backgroundColor = convertHexColorToRgbColor('FFFFFF') || fallbackColor
 
-// Font loaders
+/* -------------------------------------------------------------------------
+  Font Promises
+  TODO: Simplify and use fonts that are available out of the box
+------------------------------------------------------------------------- */
 const allianceregularFont = figma.loadFontAsync({ family: 'Alliance No.1', style: 'Regular' })
 const allianceboldFont = figma.loadFontAsync({ family: 'Alliance No.1', style: 'Bold' })
 const sfproregularFont = figma.loadFontAsync({ family: 'SF Pro Display', style: 'Regular' })
@@ -20,7 +26,10 @@ let cardComonent: ComponentNode
 let teamFrame: FrameNode
 let teamName: string
 
-// Create card component
+/* -------------------------------------------------------------------------
+  Card component
+  TODO: refactor textboxes
+------------------------------------------------------------------------- */
 export async function createCardComponent() {
   const cardComponent = figma.createComponent()
   cardComponent.name = 'Card'
@@ -99,7 +108,10 @@ export async function createCardComponent() {
   return cardComponent
 }
 
-// Create team textbox
+/* -------------------------------------------------------------------------
+  Create text box
+  TODO: Refactor to use everywhere
+------------------------------------------------------------------------- */
 export function createTeamTextbox(label: string) {
   const teamTextbox = figma.createText()
   teamTextbox.name = 'Team'
@@ -113,7 +125,10 @@ export function createTeamTextbox(label: string) {
   return teamTextbox
 }
 
-// Get image from url
+/* -------------------------------------------------------------------------
+  Return fill from Uint8Array
+  TODO: rewrite to use more descriptive variables
+------------------------------------------------------------------------- */
 export function getImageBytesFromArray(data: Uint8Array): ImagePaint[] {
   let imageHash = figma.createImage(new Uint8Array(data)).hash
   const newFill: ImagePaint = {
@@ -141,12 +156,18 @@ export function getImageBytesFromArray(data: Uint8Array): ImagePaint[] {
   return [newFill]
 }
 
-// Set background fill from image url
+/* -------------------------------------------------------------------------
+  Set Background fil
+  TODO: This method made sense when I added it, but is a bridge.
+  Can we remove it?
+------------------------------------------------------------------------- */
 export async function setBackgroundFillFromImageArray(layer: EllipseNode | RectangleNode, data: Uint8Array) {
   layer.fills = getImageBytesFromArray(data)
 }
 
-// Create team(s) frame
+/* -------------------------------------------------------------------------
+  Create Frame for teams
+------------------------------------------------------------------------- */
 export function createTeamFrame(teamName: string, key: string) {
   const frame = figma.createFrame()
   frame.layoutMode = key === 'teams' ? 'HORIZONTAL' : 'VERTICAL'
@@ -167,7 +188,9 @@ export function createTeamFrame(teamName: string, key: string) {
   return frame
 }
 
-// Fill card content
+/* -------------------------------------------------------------------------
+  Update (cloned) card
+------------------------------------------------------------------------- */
 export async function fillCardContent(card: ComponentNode, name: string | undefined | null, alias: string | undefined | null, meta: string | undefined | null) {
   const textLayers: Array<TextNode> = card.findAllWithCriteria({ types: ['TEXT'] })
   const avatarLayer: EllipseNode = card.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.name === 'Avatar')[0]
@@ -197,7 +220,9 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
   }
 }
 
-// Process JSON data
+/* -------------------------------------------------------------------------
+  Process JSON data
+------------------------------------------------------------------------- */
 export async function process(key: any, value: any) {
   switch (key) {
     /* ------------------------------------------------------
@@ -283,6 +308,9 @@ export async function traverse(json: any) {
 }
 
 export default async function () {
+  /* -------------------------------------------------------------------------
+    Create chart
+  ------------------------------------------------------------------------- */
   once<CreateChartHandler>('CREATE_CHART', async function (chartData: string) {
     // Handle messages
     figma.ui.on('message', (value) => {
@@ -304,10 +332,16 @@ export default async function () {
     await traverse(chartDataObject)
   })
 
+  /* -------------------------------------------------------------------------
+    Close Plugin
+  ------------------------------------------------------------------------- */
   once<CloseHandler>('CLOSE', function () {
     figma.closePlugin()
   })
 
+  /* -------------------------------------------------------------------------
+    Show UI window
+  ------------------------------------------------------------------------- */
   showUI({
     width: 600,
     height: 440,
