@@ -3,13 +3,21 @@ import { emit } from '@create-figma-plugin/utilities'
 import { h } from 'preact'
 import { useCallback, useState } from 'preact/hooks'
 import { CloseHandler, CreateChartHandler } from './types'
+import defaultChartData from './defaultChartData.json'
 
 function Plugin() {
-  // States for 
   const [chartData, setChartData] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  // Submit the chart data to the plugin
+  
+  /* -------------------------------------------------------------------------
+    Loading example data from defaultChartData.json
+    TODO: Adding a method to fetch data from a URL
+  ------------------------------------------------------------------------- */
+  setChartData(JSON.stringify(defaultChartData, null, "\t"))
+  
+  /* -------------------------------------------------------------------------
+    Submit data chart and kick off the drawing process
+  ------------------------------------------------------------------------- */
   const handleCreateChartButtonClick = useCallback(
     function () {
       if (chartData !== null) {
@@ -20,7 +28,9 @@ function Plugin() {
     [chartData]
   )
   
-  // Close the plugin
+  /* -------------------------------------------------------------------------
+    Cancel and close
+  ------------------------------------------------------------------------- */
   const handleCloseButtonClick = useCallback(
     function () {
       emit<CloseHandler>('CLOSE')
@@ -28,7 +38,9 @@ function Plugin() {
     []
   )
 
-  // Message management
+  /* -------------------------------------------------------------------------
+    Message management
+  ------------------------------------------------------------------------- */
   window.onmessage = async (event) => {
     if (event.data.pluginMessage.type === 'getAvatarURL') {
       const url: string = `https://ogtojsonservice.vercel.app/api?url=https://github.com/${event.data.pluginMessage.alias}`;
@@ -49,7 +61,7 @@ function Plugin() {
   return (
     <Container>
       <VerticalSpace space="large" />
-      <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>learn more</a></Text>
+      <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>Learn more</a></Text>
       <VerticalSpace space="small" />
       <TextboxMultiline
         disabled={isLoading === true}
