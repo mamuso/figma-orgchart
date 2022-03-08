@@ -13,7 +13,12 @@ let config: any = {
     border: 'EEECF3',
     background: 'FFFFFF',
     primarytext: '444D56',
-    secondarytext: 'FFFFFF',
+    secondarytext: 'A1A6AA',
+  },
+  text: {
+    name: { family: 'Alliance No.1', style: 'Bold', size: 16 },
+    alias: { family: 'Alliance No.1', style: 'Regular', size: 12 },
+    meta: { family: 'SF Pro Display', style: 'Regular', size: 12 },
   },
 }
 
@@ -245,15 +250,7 @@ export async function process(key: any, value: any) {
       Update default config
      ------------------------------------------------------ */
     case 'config':
-      if (value.alias && value.alias != config.alias) config.alias = value.alias
-      if (value.meta && value.meta != config.meta) config.meta = value.meta
-      if (value.ogurl && value.ogurl != config.ogurl) config.ogurl = value.ogurl
-      if (value.color) {
-        if (value.color.border && value.color.border != config.color.border) config.color.border = value.color.border
-        if (value.color.background && value.color.background != config.color.background) config.color.background = value.color.background
-        if (value.color.primarytext && value.color.primarytext != config.color.primarytext) config.color.primarytext = value.color.primarytext
-        if (value.color.secondarytext && value.color.secondarytext != config.color.secondarytext) config.color.secondarytext = value.color.secondarytext
-      }
+      config = { ...config, ...value }
       break
 
     /* ------------------------------------------------------
