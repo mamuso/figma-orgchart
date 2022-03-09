@@ -1,11 +1,17 @@
 import { convertHexColorToRgbColor, once, showUI } from '@create-figma-plugin/utilities'
 import { CloseHandler, CreateChartHandler } from './types'
 
-/* -------------------------------------------------------------------------
-  Default config object
-  TODO: create type for config
-------------------------------------------------------------------------- */
+/** -------------------------------------------------------------------------
+ * Variables
+ * ------------------------------------------------------------------------- */
+
+/**
+ * config: Default config object
+ * TODO: declare type for config
+ */
 let config: any = {
+  avatar: true,
+  name: true,
   alias: true,
   meta: true,
   ogurl: 'https://github.com/',
@@ -16,36 +22,66 @@ let config: any = {
     secondarytext: 'A1A6AA',
   },
   text: {
-    name: { family: 'Alliance No.1', style: 'Bold', size: 16 },
-    alias: { family: 'Alliance No.1', style: 'Regular', size: 12 },
-    meta: { family: 'SF Pro Display', style: 'Regular', size: 12 },
+    name: { family: 'Helvetica Neue', style: 'Bold', size: 16 },
+    alias: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
+    meta: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
   },
 }
 
-/* -------------------------------------------------------------------------
-  Color Variables
-  TODO: Make them overridable via config
-------------------------------------------------------------------------- */
-const fallbackColor = { r: 0, g: 0, b: 0 }
-const borderColor = convertHexColorToRgbColor('EEECF3') || fallbackColor
-const textColor = convertHexColorToRgbColor('444D56') || fallbackColor
-const secondarytextColor = convertHexColorToRgbColor('A1A6AA') || fallbackColor
-const backgroundColor = convertHexColorToRgbColor('FFFFFF') || fallbackColor
+/**
+ * Declaring global color variables
+ */
+const fallbackColor: RGB = { r: 0, g: 0, b: 0 }
+let borderColor: RGB
+let primarytextColor: RGB
+let secondarytextColor: RGB
+let backgroundColor: RGB
 
-/* -------------------------------------------------------------------------
-  Font Promises
-  TODO: Simplify and use fonts that are available out of the box
-------------------------------------------------------------------------- */
-const allianceregularFont = figma.loadFontAsync({ family: 'Alliance No.1', style: 'Regular' })
-const allianceboldFont = figma.loadFontAsync({ family: 'Alliance No.1', style: 'Bold' })
-const sfproregularFont = figma.loadFontAsync({ family: 'SF Pro Display', style: 'Regular' })
+/**
+ * Declaring global font promise variables
+ */
+let nameFont: Promise<void>
+let aliasFont: Promise<void>
+let metaFont: Promise<void>
 
+/**
+ * Utility variables
+ */
 const signature = Date.now()
 let jsonElements: number = 0
 let avatarsRequested: number = 0
 let cardComonent: ComponentNode
 let teamFrame: FrameNode
 let teamName: string
+
+/** -------------------------------------------------------------------------
+ * Functions
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Merges the default config object with the object passed as a parameter.
+ * Sets up the color coniguration and the font promises.
+ *
+ * @param configuration - A config object
+ * @returns The config object
+ */
+export function setConfiguration(configuration: object) {
+  // Merge objects
+  config = { ...config, ...configuration }
+
+  // Set up colors
+  borderColor = convertHexColorToRgbColor(config.color.border) || fallbackColor
+  primarytextColor = convertHexColorToRgbColor(config.color.primarytext) || fallbackColor
+  secondarytextColor = convertHexColorToRgbColor(config.color.secondarytext) || fallbackColor
+  backgroundColor = convertHexColorToRgbColor(config.color.background) || fallbackColor
+
+  // Load fonts
+  nameFont = figma.loadFontAsync({ family: config.text.name.family, style: config.text.name.style })
+  aliasFont = figma.loadFontAsync({ family: config.text.alias.family, style: config.text.alias.style })
+  metaFont = figma.loadFontAsync({ family: config.text.meta.family, style: config.text.meta.style })
+
+  return config
+}
 
 /* -------------------------------------------------------------------------
   Card component
@@ -84,6 +120,7 @@ export async function createCardComponent() {
   cardComponentTextFrame.name = 'TextFrame'
   cardComponentTextFrame.resizeWithoutConstraints(200, 74)
   cardComponentTextFrame.layoutMode = 'VERTICAL'
+  cardComponentTextFrame.fills = []
   cardComponent.appendChild(cardComponentTextFrame)
 
   // Name textbox
@@ -91,7 +128,7 @@ export async function createCardComponent() {
   cardComponentName.name = 'Name'
   cardComponentName.fontName = { family: 'Alliance No.1', style: 'Bold' }
   cardComponentName.lineHeight = { value: 120, unit: 'PERCENT' }
-  cardComponentName.fills = [{ type: 'SOLID', color: textColor }]
+  cardComponentName.fills = [{ type: 'SOLID', color: primarytextColor }]
   cardComponentName.characters = 'Name Surname'
   cardComponentName.fontSize = 16
   cardComponentName.textAlignHorizontal = 'LEFT'
@@ -102,7 +139,7 @@ export async function createCardComponent() {
   cardComponentAlias.name = 'Alias'
   cardComponentAlias.fontName = { family: 'Alliance No.1', style: 'Regular' }
   cardComponentAlias.lineHeight = { value: 120, unit: 'PERCENT' }
-  cardComponentAlias.fills = [{ type: 'SOLID', color: textColor }]
+  cardComponentAlias.fills = [{ type: 'SOLID', color: primarytextColor }]
   cardComponentAlias.characters = '@Alias'
   cardComponentAlias.fontSize = 12
   cardComponentAlias.textAlignHorizontal = 'LEFT'
@@ -112,6 +149,7 @@ export async function createCardComponent() {
   const cardComponentSpacer = figma.createFrame()
   cardComponentSpacer.name = 'Spacer'
   cardComponentSpacer.resizeWithoutConstraints(4, 4)
+  cardComponentSpacer.fills = []
   cardComponentTextFrame.appendChild(cardComponentSpacer)
 
   // Meta textbox
@@ -138,7 +176,7 @@ export function createTeamTextbox(label: string) {
   teamTextbox.name = 'Team'
   teamTextbox.fontName = { family: 'Alliance No.1', style: 'Bold' }
   teamTextbox.lineHeight = { value: 120, unit: 'PERCENT' }
-  teamTextbox.fills = [{ type: 'SOLID', color: textColor }]
+  teamTextbox.fills = [{ type: 'SOLID', color: primarytextColor }]
   teamTextbox.characters = label
   teamTextbox.fontSize = 20
   teamTextbox.textAlignHorizontal = 'LEFT'
@@ -247,13 +285,6 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
 export async function process(key: any, value: any) {
   switch (key) {
     /* ------------------------------------------------------
-      Update default config
-     ------------------------------------------------------ */
-    case 'config':
-      config = { ...config, ...value }
-      break
-
-    /* ------------------------------------------------------
      Create layer for each team
      ------------------------------------------------------ */
     case 'team':
@@ -354,12 +385,17 @@ export default async function () {
       }
     })
 
+    // Parse chart data
+    const chartDataObject = JSON.parse(chartData)
+
+    // Read configuration
+    setConfiguration(chartDataObject.config)
+
     // Create card component
     cardComonent = await createCardComponent()
     cardComonent.visible = false
 
-    // Parse chart data
-    const chartDataObject = JSON.parse(chartData)
+    // Traverse JSON
     await traverse(chartDataObject)
   })
 
