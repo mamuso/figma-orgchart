@@ -148,18 +148,18 @@ export async function createCardComponent() {
       cardComponentTextFrame.appendChild(cardComponentName)
     }
 
-    // Create alias textbox and spacer if alias is enabled
+    // Create alias textbox if enabled
     if (config.alias) {
       const cardComponentAlias = createTextbox('', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
       cardComponentTextFrame.appendChild(cardComponentAlias)
-
-      // Create spacer
-      const cardComponentSpacer = figma.createFrame()
-      cardComponentSpacer.name = 'Spacer'
-      cardComponentSpacer.resizeWithoutConstraints(4, 4)
-      cardComponentSpacer.fills = []
-      cardComponentTextFrame.appendChild(cardComponentSpacer)
     }
+
+    // Create spacer
+    const cardComponentSpacer = figma.createFrame()
+    cardComponentSpacer.name = 'Spacer'
+    cardComponentSpacer.resizeWithoutConstraints(4, 4)
+    cardComponentSpacer.fills = []
+    cardComponentTextFrame.appendChild(cardComponentSpacer)
 
     // Create meta textbox if enabled
     if (config.meta) {
@@ -401,6 +401,7 @@ export default async function () {
       const avatarLayer: EllipseNode = figma.currentPage.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.id === value.layer)[0]
       setBackgroundFillFromImageArray(avatarLayer, value.img)
       avatarsRequested = avatarsRequested - 1
+      // Close the plugin once we have load all the avatars
       if (avatarsRequested === 0) {
         figma.closePlugin()
       }
