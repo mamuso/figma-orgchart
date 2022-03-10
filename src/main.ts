@@ -74,15 +74,13 @@ export function setConfiguration(configuration: ChartConfig) {
       ...configuration,
       color: {
         ...config.color,
-        ...configuration.color,
+        ...(configuration.color ? configuration.color : config.color),
       },
       text: {
         ...config.text,
-        ...configuration.text,
+        ...(configuration.text ? configuration.text : config.text),
       },
     }
-  }
-  console.log(config)
 
   // Set up colors
   borderColor = convertHexColorToRgbColor(config.color.border) || fallbackColor
