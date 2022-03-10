@@ -1,13 +1,7 @@
 {
   "config": {
-    "alias": false,
-    "meta": false,
-    "ogurl": "https://twitter.com/",
-    "color": {
-      "border": "ffccdd",
-      "background": "ffcc00",
-      "primarytext": "333333",
-      "secondarytext": "CCCCCC"
+    "text": {
+      "name": { "family": "Comic Sans MS", "style": "Bold", "size": 16 }
     }
   },
   "team": "Team Rocket",

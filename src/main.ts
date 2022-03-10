@@ -1,5 +1,5 @@
 import { convertHexColorToRgbColor, once, showUI } from '@create-figma-plugin/utilities'
-import { CloseHandler, CreateChartHandler } from './types'
+import { ChartConfig, CloseHandler, CreateChartHandler } from './types'
 
 /** -------------------------------------------------------------------------
  * Variables
@@ -9,7 +9,7 @@ import { CloseHandler, CreateChartHandler } from './types'
  * config: Default config object
  * TODO: declare type for config
  */
-let config: any = {
+let config: ChartConfig = {
   avatar: true,
   name: true,
   alias: true,
@@ -22,6 +22,7 @@ let config: any = {
     secondarytext: 'A1A6AA',
   },
   text: {
+    team: { family: 'Helvetica Neue', style: 'Bold', size: 20 },
     name: { family: 'Helvetica Neue', style: 'Bold', size: 16 },
     alias: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
     meta: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
@@ -43,6 +44,7 @@ let backgroundColor: RGB
 let nameFont: Promise<void>
 let aliasFont: Promise<void>
 let metaFont: Promise<void>
+let teamFont: Promise<void>
 
 /**
  * Utility variables
@@ -65,9 +67,20 @@ let teamName: string
  * @param configuration - A config object
  * @returns The config object
  */
-export function setConfiguration(configuration: object) {
+export function setConfiguration(configuration: ChartConfig) {
   // Merge objects
-  config = { ...config, ...configuration }
+  config = {
+    ...config,
+    ...configuration,
+    color: {
+      ...config.color,
+      ...configuration.color,
+    },
+    text: {
+      ...config.text,
+      ...configuration.text,
+    },
+  }
 
   // Set up colors
   borderColor = convertHexColorToRgbColor(config.color.border) || fallbackColor
@@ -79,109 +92,108 @@ export function setConfiguration(configuration: object) {
   nameFont = figma.loadFontAsync({ family: config.text.name.family, style: config.text.name.style })
   aliasFont = figma.loadFontAsync({ family: config.text.alias.family, style: config.text.alias.style })
   metaFont = figma.loadFontAsync({ family: config.text.meta.family, style: config.text.meta.style })
-
+  teamFont = figma.loadFontAsync({ family: config.text.team.family, style: config.text.team.style })
   return config
 }
 
-/* -------------------------------------------------------------------------
-  Card component
-  TODO: refactor textboxes
-------------------------------------------------------------------------- */
+/**
+ * Generates the card component that we will use to clone later.
+ *
+ * @returns The card as a ComponentNode
+ */
 export async function createCardComponent() {
-  const cardComponent = figma.createComponent()
-  cardComponent.name = 'Card'
-  cardComponent.fills = [{ type: 'SOLID', color: backgroundColor }]
-  cardComponent.strokes = [{ type: 'SOLID', color: borderColor }]
-  cardComponent.strokeAlign = 'INSIDE'
-  cardComponent.strokeWeight = 2
-  cardComponent.cornerRadius = 8
-  cardComponent.resizeWithoutConstraints(280, 74)
-  cardComponent.layoutMode = 'HORIZONTAL'
-  cardComponent.layoutGrow = 0
-  cardComponent.counterAxisAlignItems = 'CENTER'
-  cardComponent.itemSpacing = 16
-  cardComponent.paddingTop = 12
-  cardComponent.paddingRight = 20
-  cardComponent.paddingBottom = 12
-  cardComponent.paddingLeft = 20
+  // All fonts must be loaded before we can create the component
+  const card = await Promise.all([nameFont, aliasFont, metaFont]).then(() => {
+    // Create the card component frame
+    const cardComponent = figma.createComponent()
+    cardComponent.name = 'Card'
+    cardComponent.fills = [{ type: 'SOLID', color: backgroundColor }]
+    cardComponent.strokes = [{ type: 'SOLID', color: borderColor }]
+    cardComponent.strokeAlign = 'INSIDE'
+    cardComponent.strokeWeight = 2
+    cardComponent.cornerRadius = 8
+    cardComponent.resizeWithoutConstraints(280, 74)
+    cardComponent.layoutMode = 'HORIZONTAL'
+    cardComponent.layoutGrow = 0
+    cardComponent.counterAxisAlignItems = 'CENTER'
+    cardComponent.itemSpacing = 16
+    cardComponent.paddingTop = 12
+    cardComponent.paddingRight = 20
+    cardComponent.paddingBottom = 12
+    cardComponent.paddingLeft = 20
 
-  // Create Avatar
-  const avatarComponent = figma.createEllipse()
-  avatarComponent.name = 'Avatar'
-  avatarComponent.resizeWithoutConstraints(40, 40)
-  avatarComponent.fills = [{ type: 'SOLID', color: borderColor }]
-  avatarComponent.strokes = [{ type: 'SOLID', color: fallbackColor, opacity: 0.12 }]
-  avatarComponent.strokeAlign = 'INSIDE'
-  avatarComponent.strokeWeight = 1
-  cardComponent.appendChild(avatarComponent)
+    // Create Avatar if enabled
+    if (config.avatar) {
+      const avatarComponent = figma.createEllipse()
+      avatarComponent.name = 'Avatar'
+      avatarComponent.resizeWithoutConstraints(40, 40)
+      avatarComponent.fills = [{ type: 'SOLID', color: borderColor }]
+      avatarComponent.strokes = [{ type: 'SOLID', color: fallbackColor, opacity: 0.12 }]
+      avatarComponent.strokeAlign = 'INSIDE'
+      avatarComponent.strokeWeight = 1
+      cardComponent.appendChild(avatarComponent)
+    }
 
-  // Create text frame
-  const cardComponentTextFrame = figma.createFrame()
-  cardComponentTextFrame.name = 'TextFrame'
-  cardComponentTextFrame.resizeWithoutConstraints(200, 74)
-  cardComponentTextFrame.layoutMode = 'VERTICAL'
-  cardComponentTextFrame.fills = []
-  cardComponent.appendChild(cardComponentTextFrame)
+    // Create text frame
+    const cardComponentTextFrame = figma.createFrame()
+    cardComponentTextFrame.name = 'TextFrame'
+    cardComponentTextFrame.resizeWithoutConstraints(200, 74)
+    cardComponentTextFrame.layoutMode = 'VERTICAL'
+    cardComponentTextFrame.fills = []
+    cardComponent.appendChild(cardComponentTextFrame)
 
-  // Name textbox
-  const cardComponentName = figma.createText()
-  cardComponentName.name = 'Name'
-  cardComponentName.fontName = { family: 'Alliance No.1', style: 'Bold' }
-  cardComponentName.lineHeight = { value: 120, unit: 'PERCENT' }
-  cardComponentName.fills = [{ type: 'SOLID', color: primarytextColor }]
-  cardComponentName.characters = 'Name Surname'
-  cardComponentName.fontSize = 16
-  cardComponentName.textAlignHorizontal = 'LEFT'
-  cardComponentTextFrame.appendChild(cardComponentName)
+    // Create name textbox if enabled
+    if (config.name) {
+      const cardComponentName = createTextbox('Name', 'Name', config.text.name.family, config.text.name.style, config.text.name.size, primarytextColor)
+      cardComponentTextFrame.appendChild(cardComponentName)
+    }
 
-  // Alias textbox
-  const cardComponentAlias = figma.createText()
-  cardComponentAlias.name = 'Alias'
-  cardComponentAlias.fontName = { family: 'Alliance No.1', style: 'Regular' }
-  cardComponentAlias.lineHeight = { value: 120, unit: 'PERCENT' }
-  cardComponentAlias.fills = [{ type: 'SOLID', color: primarytextColor }]
-  cardComponentAlias.characters = '@Alias'
-  cardComponentAlias.fontSize = 12
-  cardComponentAlias.textAlignHorizontal = 'LEFT'
-  cardComponentTextFrame.appendChild(cardComponentAlias)
+    // Create alias textbox and spacer if alias is enabled
+    if (config.alias) {
+      const cardComponentAlias = createTextbox('@alias', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
+      cardComponentTextFrame.appendChild(cardComponentAlias)
 
-  // Create spacer
-  const cardComponentSpacer = figma.createFrame()
-  cardComponentSpacer.name = 'Spacer'
-  cardComponentSpacer.resizeWithoutConstraints(4, 4)
-  cardComponentSpacer.fills = []
-  cardComponentTextFrame.appendChild(cardComponentSpacer)
+      // Create spacer
+      const cardComponentSpacer = figma.createFrame()
+      cardComponentSpacer.name = 'Spacer'
+      cardComponentSpacer.resizeWithoutConstraints(4, 4)
+      cardComponentSpacer.fills = []
+      cardComponentTextFrame.appendChild(cardComponentSpacer)
+    }
 
-  // Meta textbox
-  const cardComponentMeta = figma.createText()
-  cardComponentMeta.name = 'Meta'
-  cardComponentMeta.fontName = { family: 'SF Pro Display', style: 'Regular' }
-  cardComponentMeta.lineHeight = { value: 120, unit: 'PERCENT' }
-  cardComponentMeta.fills = [{ type: 'SOLID', color: secondarytextColor }]
-  cardComponentMeta.characters = 'metadata'
-  cardComponentMeta.fontSize = 12
-  cardComponentMeta.letterSpacing = { value: 0.3, unit: 'PIXELS' }
-  cardComponentMeta.textAlignHorizontal = 'LEFT'
-  cardComponentTextFrame.appendChild(cardComponentMeta)
-
-  return cardComponent
+    // Create meta textbox if enabled
+    if (config.meta) {
+      const cardComponentMeta = createTextbox('Meta', 'Meta', config.text.meta.family, config.text.meta.style, config.text.meta.size, secondarytextColor)
+      cardComponentMeta.letterSpacing = { value: 0.3, unit: 'PIXELS' }
+      cardComponentTextFrame.appendChild(cardComponentMeta)
+    }
+    return cardComponent
+  })
+  return card
 }
 
-/* -------------------------------------------------------------------------
-  Create text box
-  TODO: Refactor to use everywhere
-------------------------------------------------------------------------- */
-export function createTeamTextbox(label: string) {
-  const teamTextbox = figma.createText()
-  teamTextbox.name = 'Team'
-  teamTextbox.fontName = { family: 'Alliance No.1', style: 'Bold' }
-  teamTextbox.lineHeight = { value: 120, unit: 'PERCENT' }
-  teamTextbox.fills = [{ type: 'SOLID', color: primarytextColor }]
-  teamTextbox.characters = label
-  teamTextbox.fontSize = 20
-  teamTextbox.textAlignHorizontal = 'LEFT'
-  teamTextbox.resizeWithoutConstraints(340, 22)
-  return teamTextbox
+/**
+ * Creates a text box object with the content and the style we define. This method has way too many parameters, but it
+ * helps to keep the code clean.
+ *
+ * @param label - The content of the text box
+ * @param name - Name of the font
+ * @param fontFamily - Font family that you want to use for the text. It should exist in Figma
+ * @param fontStyle - Variation of the font family. It should exist in Figma
+ * @param fontSize - Font size
+ * @param color - Color of the text
+ * @returns A text box object as TextNode
+ */
+export function createTextbox(label: string, name: string, fontFamily: string, fontStyle: string, fontSize: number, color: RGB): TextNode {
+  const textbox = figma.createText()
+  textbox.name = name
+  textbox.fontName = { family: fontFamily, style: fontStyle }
+  textbox.lineHeight = { value: 120, unit: 'PERCENT' }
+  textbox.fills = [{ type: 'SOLID', color: color }]
+  textbox.characters = label
+  textbox.fontSize = fontSize
+  textbox.textAlignHorizontal = 'LEFT'
+  return textbox
 }
 
 /* -------------------------------------------------------------------------
@@ -311,7 +323,8 @@ export async function process(key: any, value: any) {
         })
       } else {
         // Create team textbox
-        const teamTextbox = createTeamTextbox(teamFrame.name.replace(`team – ${signature}`, ''))
+        const teamTextbox = createTextbox(teamFrame.name.replace(`team – ${signature}`, ''), 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
+        teamTextbox.resizeWithoutConstraints(340, 18)
         teamLayer.appendChild(teamTextbox)
       }
       break
@@ -335,8 +348,7 @@ export async function process(key: any, value: any) {
     case 'members':
       value.forEach((d: any) => {
         if (d.section) {
-          const sectionBox = createTeamTextbox(`${d.section}`)
-          sectionBox.fontSize = 16
+          const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
           sectionBox.resizeWithoutConstraints(296, 18)
           teamFrame.appendChild(sectionBox)
         } else {
