@@ -67,19 +67,22 @@ let teamName: string
  * @returns The config object
  */
 export function setConfiguration(configuration: ChartConfig) {
-  // Merge objects
-  config = {
-    ...config,
-    ...configuration,
-    color: {
-      ...config.color,
-      ...configuration.color,
-    },
-    text: {
-      ...config.text,
-      ...configuration.text,
-    },
+  if (configuration) {
+    // Merge objects
+    config = {
+      ...config,
+      ...configuration,
+      color: {
+        ...config.color,
+        ...configuration.color,
+      },
+      text: {
+        ...config.text,
+        ...configuration.text,
+      },
+    }
   }
+  console.log(config)
 
   // Set up colors
   borderColor = convertHexColorToRgbColor(config.color.border) || fallbackColor

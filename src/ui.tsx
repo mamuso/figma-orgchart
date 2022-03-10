@@ -12,7 +12,7 @@ function Plugin() {
   /* -------------------------------------------------------------------------
     Loading example data from defaultChartData.json
   ------------------------------------------------------------------------- */
-  setChartData(JSON.stringify(defaultChartData, null, "\t"))
+  if (chartData == '') setChartData(JSON.stringify(defaultChartData, null, "\t"))
   
   /* -------------------------------------------------------------------------
     Submit data chart and kick off the drawing process
