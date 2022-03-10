@@ -7,7 +7,6 @@ import { ChartConfig, CloseHandler, CreateChartHandler } from './types'
 
 /**
  * config: Default config object
- * TODO: declare type for config
  */
 let config: ChartConfig = {
   avatar: true,
@@ -196,13 +195,16 @@ export function createTextbox(label: string, name: string, fontFamily: string, f
   return textbox
 }
 
-/* -------------------------------------------------------------------------
-  Return fill from Uint8Array
-  TODO: rewrite to use more descriptive variables
-------------------------------------------------------------------------- */
-export function getImageBytesFromArray(data: Uint8Array): ImagePaint[] {
-  let imageHash = figma.createImage(new Uint8Array(data)).hash
-  const newFill: ImagePaint = {
+/**
+ * Applies an image fill to a layer.
+ *
+ * @param layer - an image as a Uint8Array
+ * @param imageData - an image as a Uint8Array
+ * @returns an EllipseNode or RectangleNode
+ */
+export async function setBackgroundFill(layer: EllipseNode | RectangleNode, imageData: Uint8Array) {
+  const imageHash = figma.createImage(new Uint8Array(imageData)).hash
+  const imageFill: ImagePaint = {
     type: 'IMAGE',
     filters: {
       contrast: 0,
@@ -224,32 +226,30 @@ export function getImageBytesFromArray(data: Uint8Array): ImagePaint[] {
     visible: true,
   }
 
-  return [newFill]
+  layer.fills = [imageFill]
+
+  return layer
 }
 
-/* -------------------------------------------------------------------------
-  Set Background fil
-  TODO: This method made sense when I added it, but is a bridge.
-  Can we remove it?
-------------------------------------------------------------------------- */
-export async function setBackgroundFillFromImageArray(layer: EllipseNode | RectangleNode, data: Uint8Array) {
-  layer.fills = getImageBytesFromArray(data)
-}
-
-/* -------------------------------------------------------------------------
-  Create Frame for teams
-------------------------------------------------------------------------- */
+/**
+ * Creates a frame for a team or a group of teams.
+ *
+ * @param teamName - the name of the team will be the name of the frame
+ * @param key - it can be 'team' for a single team, or 'teams' for a group of teams
+ * @returns a FrameNode
+ */
 export function createTeamFrame(teamName: string, key: string) {
   const frame = figma.createFrame()
-  frame.layoutMode = key === 'teams' ? 'HORIZONTAL' : 'VERTICAL'
   frame.name = teamName
-  frame.itemSpacing = key === 'teams' ? 80 : 16
   frame.primaryAxisSizingMode = 'AUTO'
   frame.counterAxisSizingMode = 'AUTO'
   frame.primaryAxisAlignItems = 'MIN'
   frame.counterAxisAlignItems = key === 'teams' ? 'MIN' : 'CENTER'
+  frame.layoutMode = key === 'teams' ? 'HORIZONTAL' : 'VERTICAL'
+  frame.itemSpacing = key === 'teams' ? 80 : 16
   frame.paddingTop = 16
   frame.paddingBottom = 32
+  // if the frame is the first one, we add different padding
   if (!baseFrame) {
     frame.paddingTop = 80
     frame.paddingBottom = 80
@@ -259,9 +259,15 @@ export function createTeamFrame(teamName: string, key: string) {
   return frame
 }
 
-/* -------------------------------------------------------------------------
-  Update (cloned) card
-------------------------------------------------------------------------- */
+/**
+ * Fill the contents of a card.
+ *
+ * @param card - the card to fill
+ * @param name - string with the name of the person
+ * @param alias - string with the alias of the person
+ * @param meta  - string with more information
+ * @returns the transformed card
+ */
 export async function fillCardContent(card: ComponentNode, name: string | undefined | null, alias: string | undefined | null, meta: string | undefined | null) {
   const textLayers: Array<TextNode> = card.findAllWithCriteria({ types: ['TEXT'] })
   const avatarLayer: EllipseNode = card.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.name === 'Avatar')[0]
@@ -297,11 +303,16 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
       avatarsRequested = avatarsRequested + 1
     }
   }
+
+  return card
 }
 
-/* -------------------------------------------------------------------------
-  Process JSON data
-------------------------------------------------------------------------- */
+/**
+ * Process a key/value pair from the json.
+ *
+ * @param key - team, teams, manager, or members
+ * @param value - the value of the key
+ */
 export async function process(key: any, value: any) {
   switch (key) {
     /* ------------------------------------------------------
@@ -378,9 +389,11 @@ export async function process(key: any, value: any) {
   }
 }
 
-/* -------------------------------------------------------------------------
-  Traverse JSON
-------------------------------------------------------------------------- */
+/**
+ * Traverse the JSON.
+ *
+ * @param json - the json with the config and the chart data
+ */
 export async function traverse(json: any) {
   for (var i in json) {
     process(i, json[i])
@@ -399,7 +412,7 @@ export default async function () {
     figma.ui.on('message', (value) => {
       value = value[0]
       const avatarLayer: EllipseNode = figma.currentPage.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.id === value.layer)[0]
-      setBackgroundFillFromImageArray(avatarLayer, value.img)
+      setBackgroundFill(avatarLayer, value.img)
       avatarsRequested = avatarsRequested - 1
       // Close the plugin once we have load all the avatars
       if (avatarsRequested === 0) {
