@@ -50,7 +50,7 @@ let teamFont: Promise<void>
  * Utility variables
  */
 const signature = Date.now()
-let jsonElements: number = 0
+let baseFrame: boolean = false
 let avatarsRequested: number = 0
 let cardComonent: ComponentNode
 let teamFrame: FrameNode
@@ -250,7 +250,7 @@ export function createTeamFrame(teamName: string, key: string) {
   frame.counterAxisAlignItems = key === 'teams' ? 'MIN' : 'CENTER'
   frame.paddingTop = 16
   frame.paddingBottom = 32
-  if (jsonElements === 0) {
+  if (!baseFrame) {
     frame.paddingTop = 80
     frame.paddingBottom = 80
     frame.paddingRight = 100
@@ -308,6 +308,7 @@ export async function process(key: any, value: any) {
       if (teamLayer === undefined) {
         teamLayer = createTeamFrame(teamName, key)
         if (teamFrame) teamFrame.appendChild(teamLayer)
+        baseFrame = true
       }
 
       teamFrame = teamLayer
@@ -327,6 +328,7 @@ export async function process(key: any, value: any) {
         teamTextbox.resizeWithoutConstraints(340, 18)
         teamLayer.appendChild(teamTextbox)
       }
+
       break
 
     /* ------------------------------------------------------
@@ -366,7 +368,6 @@ export async function process(key: any, value: any) {
       teamFrame.itemSpacing = 8
       break
   }
-  jsonElements = jsonElements + 1
 }
 
 /* -------------------------------------------------------------------------

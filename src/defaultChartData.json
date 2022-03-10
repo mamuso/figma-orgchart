@@ -12,10 +12,44 @@
   },
   "teams": [
     {
-      "team": "Pickle"
+      "team": "Pickle",
+      "manager": {
+        "name": "John Smith",
+        "alias": "@mamuso",
+        "meta": ""
+      },
+      "members": [
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        },
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        }
+      ]
     },
     {
-      "team": "Octopus"
+      "team": "Octopus",
+      "manager": {
+        "name": "John Smith",
+        "alias": "@mamuso",
+        "meta": ""
+      },
+      "members": [
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        },
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        }
+      ]
     }
   ]
 }
