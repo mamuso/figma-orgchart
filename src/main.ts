@@ -103,7 +103,7 @@ export function setConfiguration(configuration: ChartConfig) {
  */
 export async function createCardComponent() {
   // All fonts must be loaded before we can create the component
-  const card = await Promise.all([nameFont, aliasFont, metaFont]).then(() => {
+  const card = await Promise.all([nameFont, aliasFont, metaFont, teamFont]).then(() => {
     // Create the card component frame
     const cardComponent = figma.createComponent()
     cardComponent.name = 'Card'
