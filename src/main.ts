@@ -297,9 +297,8 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
   }
 
   if (config.avatar) {
-    alias = alias?.replace('@', '')
     if (alias && alias != '') {
-      figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer })
+      figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer, config })
       avatarsRequested = avatarsRequested + 1
     }
   }
@@ -411,8 +410,10 @@ export default async function () {
     // Handle messages
     figma.ui.on('message', (value) => {
       value = value[0]
-      const avatarLayer: EllipseNode = figma.currentPage.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.id === value.layer)[0]
-      setBackgroundFill(avatarLayer, value.img)
+      if (value.url !== '') {
+        const avatarLayer: EllipseNode = figma.currentPage.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.id === value.layer)[0]
+        setBackgroundFill(avatarLayer, value.img)
+      }
       avatarsRequested = avatarsRequested - 1
       // Close the plugin once we have load all the avatars
       if (avatarsRequested === 0) {

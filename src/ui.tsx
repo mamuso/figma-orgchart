@@ -11,7 +11,6 @@ function Plugin() {
   
   /* -------------------------------------------------------------------------
     Loading example data from defaultChartData.json
-    TODO: Adding a method to fetch data from a URL
   ------------------------------------------------------------------------- */
   setChartData(JSON.stringify(defaultChartData, null, "\t"))
   
@@ -43,18 +42,25 @@ function Plugin() {
   ------------------------------------------------------------------------- */
   window.onmessage = async (event) => {
     if (event.data.pluginMessage.type === 'getAvatarURL') {
-      const url: string = `https://ogtojsonservice.vercel.app/api?url=https://github.com/${event.data.pluginMessage.alias}`;
+      const url: string = `https://ogtojsonservice.vercel.app/api?url=${event.data.pluginMessage.config.ogurl}${event.data.pluginMessage.alias}`;
       await fetch(url)
         .then((r) => r.json())
         .then((a) => {
-          const ogurl: string = a.ogImage.url
-          return fetch(ogurl)
-            .then((r) => r.arrayBuffer())
-            .then((a) => {
-              parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': url, 'from': 'getAvatarURL', 'img': new Uint8Array(a)}] }, '*')
-            })
+          if (a.ogImage && a.ogImage.url) {
+            let ogurl: string = a.ogImage.url
+            fetch(ogurl)
+              .then((r) => r.arrayBuffer())
+              .then((a) => {
+                parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': url, 'from': 'getAvatarURL', 'img': new Uint8Array(a) }] }, '*')
+              })
+          } else {
+            parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': '', 'from': 'getAvatarURL', 'img': '' }] }, '*')
+          }
         })
-        .catch((err) => console.error({ err }));
+        .catch((err) => {
+          parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': '', 'from': 'getAvatarURL', 'img': '' }] }, '*')
+          console.error({ err })
+        });
       }
   }
 
