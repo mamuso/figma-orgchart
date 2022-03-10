@@ -144,13 +144,13 @@ export async function createCardComponent() {
 
     // Create name textbox if enabled
     if (config.name) {
-      const cardComponentName = createTextbox('Name', 'Name', config.text.name.family, config.text.name.style, config.text.name.size, primarytextColor)
+      const cardComponentName = createTextbox('', 'Name', config.text.name.family, config.text.name.style, config.text.name.size, primarytextColor)
       cardComponentTextFrame.appendChild(cardComponentName)
     }
 
     // Create alias textbox and spacer if alias is enabled
     if (config.alias) {
-      const cardComponentAlias = createTextbox('@alias', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
+      const cardComponentAlias = createTextbox('', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
       cardComponentTextFrame.appendChild(cardComponentAlias)
 
       // Create spacer
@@ -163,7 +163,7 @@ export async function createCardComponent() {
 
     // Create meta textbox if enabled
     if (config.meta) {
-      const cardComponentMeta = createTextbox('Meta', 'Meta', config.text.meta.family, config.text.meta.style, config.text.meta.size, secondarytextColor)
+      const cardComponentMeta = createTextbox('', 'Meta', config.text.meta.family, config.text.meta.style, config.text.meta.size, secondarytextColor)
       cardComponentMeta.letterSpacing = { value: 0.3, unit: 'PIXELS' }
       cardComponentTextFrame.appendChild(cardComponentMeta)
     }
