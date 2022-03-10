@@ -1,5 +1,6 @@
 {
   "config": {
+    "avatar": false,
     "text": {
       "name": { "family": "Comic Sans MS", "style": "Bold", "size": 16 }
     }

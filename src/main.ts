@@ -267,27 +267,35 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
   const avatarLayer: EllipseNode = card.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.name === 'Avatar')[0]
 
   // Update name
-  const nameLayer = textLayers.filter((text) => text.name === 'Name')[0]
-  if (nameLayer && name) {
-    nameLayer.characters = `${name}`
+  if (config.name) {
+    const nameLayer = textLayers.filter((text) => text.name === 'Name')[0]
+    if (nameLayer && name) {
+      nameLayer.characters = `${name}`
+    }
   }
 
   // Update Alias
-  const aliasLayer = textLayers.filter((text) => text.name === 'Alias')[0]
-  if (aliasLayer && alias) {
-    aliasLayer.characters = `${alias}`
+  if (config.alias) {
+    const aliasLayer = textLayers.filter((text) => text.name === 'Alias')[0]
+    if (aliasLayer && alias) {
+      aliasLayer.characters = `${alias}`
+    }
   }
 
   // Update meta
-  const metaLayer = textLayers.filter((text) => text.name === 'Meta')[0]
-  if (metaLayer && meta) {
-    metaLayer.characters = `${meta}`
+  if (config.meta) {
+    const metaLayer = textLayers.filter((text) => text.name === 'Meta')[0]
+    if (metaLayer && meta) {
+      metaLayer.characters = `${meta}`
+    }
   }
 
-  alias = alias?.replace('@', '')
-  if (alias && alias != '') {
-    figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer })
-    avatarsRequested = avatarsRequested + 1
+  if (config.avatar) {
+    alias = alias?.replace('@', '')
+    if (alias && alias != '') {
+      figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer })
+      avatarsRequested = avatarsRequested + 1
+    }
   }
 }
 
@@ -409,7 +417,10 @@ export default async function () {
     cardComonent.visible = false
 
     // Traverse JSON
-    await traverse(chartDataObject)
+    await traverse(chartDataObject).then(() => {
+      // If we are not going to paint the avatar, let's close the plugin
+      if (!config.avatar) figma.closePlugin()
+    })
   })
 
   /* -------------------------------------------------------------------------
