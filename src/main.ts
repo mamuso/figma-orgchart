@@ -81,6 +81,7 @@ export function setConfiguration(configuration: ChartConfig) {
         ...(configuration.text ? configuration.text : config.text),
       },
     }
+  }
 
   // Set up colors
   borderColor = convertHexColorToRgbColor(config.color.border) || fallbackColor
