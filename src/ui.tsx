@@ -8,14 +8,14 @@ import defaultChartData from './defaultChartData.json'
 function Plugin() {
   const [chartData, setChartData] = useState<string>('')
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  
+
   /* -------------------------------------------------------------------------
-    Loading example data from defaultChartData.json
+  Loading example data from defaultChartData.json
   ------------------------------------------------------------------------- */
   if (chartData == '') setChartData(JSON.stringify(defaultChartData, null, "\t"))
-  
+
   /* -------------------------------------------------------------------------
-    Submit data chart and kick off the drawing process
+  Submit data chart and kick off the drawing process
   ------------------------------------------------------------------------- */
   const handleCreateChartButtonClick = useCallback(
     function () {
@@ -23,45 +23,59 @@ function Plugin() {
         setIsLoading(true)
         emit<CreateChartHandler>('CREATE_CHART', chartData)
       }
-    },
-    [chartData]
+    }, [chartData]
   )
-  
+
   /* -------------------------------------------------------------------------
-    Cancel and close
+  Cancel and close
   ------------------------------------------------------------------------- */
   const handleCloseButtonClick = useCallback(
     function () {
       emit<CloseHandler>('CLOSE')
-    },
-    []
+    }, []
   )
 
   /* -------------------------------------------------------------------------
-    Message management
+  Message management
   ------------------------------------------------------------------------- */
   window.onmessage = async (event) => {
     if (event.data.pluginMessage.type === 'getAvatarURL') {
-      const url: string = `https://ogtojsonservice.vercel.app/api?url=${event.data.pluginMessage.config.ogurl}${event.data.pluginMessage.alias}`;
-      await fetch(url)
-        .then((r) => r.json())
-        .then((a) => {
-          if (a.ogImage && a.ogImage.url) {
-            let ogurl: string = a.ogImage.url
-            fetch(ogurl)
-              .then((r) => r.arrayBuffer())
-              .then((a) => {
-                parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': url, 'from': 'getAvatarURL', 'img': new Uint8Array(a) }] }, '*')
-              })
-          } else {
-            parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': '', 'from': 'getAvatarURL', 'img': '' }] }, '*')
-          }
-        })
-        .catch((err) => {
-          parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': '', 'from': 'getAvatarURL', 'img': '' }] }, '*')
-          console.error({ err })
-        });
+      if (event.data.pluginMessage.avatar) {
+        fetchAvatar(event.data.pluginMessage.avatarLayer.id, event.data.pluginMessage.avatar, event.data.pluginMessage.avatar)
+      } else {
+        const url: string = `https://ogtojsonservice.vercel.app/api?url=${event.data.pluginMessage.config.ogurl}${event.data.pluginMessage.alias}`;
+        fetch(url)
+          .then((r) => r.json())
+          .then((a) => {
+            if (a.ogImage && a.ogImage.url) {
+              let ogurl: string = a.ogImage.url
+              fetchAvatar(event.data.pluginMessage.avatarLayer.id, url, ogurl)
+            } else {
+              postMessage(event.data.pluginMessage.avatarLayer.id, '', [])
+            }
+          })
+          .catch((err) => {
+            postMessage(event.data.pluginMessage.avatarLayer.id, '', [])
+            console.error({ err })
+          });
       }
+    }
+  }
+
+  const fetchAvatar = async (layer: string, url: string, ogurl: string) => {
+    fetch(ogurl)
+      .then((r) => r.arrayBuffer())
+      .then((a) => {
+        postMessage(layer, url, new Uint8Array(a))
+      })
+      .catch((err) => {
+        postMessage(layer, '', [])
+        console.error({ err })
+      });
+  }
+
+  const postMessage = (layer: string, url: string, img: ArrayLike<number> | ArrayBufferLike) => {
+    parent.postMessage({ type: "message", pluginMessage: [{ 'layer': layer, 'url': url, 'from': 'getAvatarURL', 'img': img }] }, '*')
   }
 
   return (

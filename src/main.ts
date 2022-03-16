@@ -299,7 +299,7 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
   }
 
   if (config.avatar) {
-    if (alias && alias != '') {
+    if ((alias && alias != '') || (avatar && avatar != '')) {
       figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer, config, avatar })
       avatarsRequested = avatarsRequested + 1
     }
