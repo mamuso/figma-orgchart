@@ -1,0 +1,56 @@
+{
+  "config": {
+    "avatar": false,
+    "text": {
+      "name": { "family": "Comic Sans MS", "style": "Bold", "size": 16 }
+    }
+  },
+  "team": "Team Rocket",
+  "manager": {
+    "name": "John Smith",
+    "alias": "@mamuso",
+    "meta": ""
+  },
+  "teams": [
+    {
+      "team": "Pickle",
+      "manager": {
+        "name": "John Smith",
+        "alias": "@mamuso",
+        "meta": ""
+      },
+      "members": [
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        },
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        }
+      ]
+    },
+    {
+      "team": "Octopus",
+      "manager": {
+        "name": "John Smith",
+        "alias": "@mamuso",
+        "meta": ""
+      },
+      "members": [
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        },
+        {
+          "name": "John Smith",
+          "alias": "@mamuso",
+          "meta": ""
+        }
+      ]
+    }
+  ]
+}

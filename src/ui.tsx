@@ -1,58 +1,90 @@
-import { Button, Columns, Container, Inline, render, Text, TextboxMultiline, VerticalSpace } from '@create-figma-plugin/ui'
+import { Button, Container, Inline, render, Text, TextboxMultiline, VerticalSpace } from '@create-figma-plugin/ui'
 import { emit } from '@create-figma-plugin/utilities'
 import { h } from 'preact'
 import { useCallback, useState } from 'preact/hooks'
 import { CloseHandler, CreateChartHandler } from './types'
+import defaultChartData from './defaultChartData.json'
 
 function Plugin() {
-  // States for 
   const [chartData, setChartData] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  // Submit the chart data to the plugin
+  /* -------------------------------------------------------------------------
+  Loading example data from defaultChartData.json
+  ------------------------------------------------------------------------- */
+  if (chartData == '') setChartData(JSON.stringify(defaultChartData, null, "\t"))
+
+  /* -------------------------------------------------------------------------
+  Submit data chart and kick off the drawing process
+  ------------------------------------------------------------------------- */
   const handleCreateChartButtonClick = useCallback(
     function () {
       if (chartData !== null) {
-        setLoading(true)
+        setIsLoading(true)
         emit<CreateChartHandler>('CREATE_CHART', chartData)
       }
-    },
-    [chartData]
+    }, [chartData]
   )
-  
-  // Close the plugin
+
+  /* -------------------------------------------------------------------------
+  Cancel and close
+  ------------------------------------------------------------------------- */
   const handleCloseButtonClick = useCallback(
     function () {
       emit<CloseHandler>('CLOSE')
-    },
-    []
+    }, []
   )
 
-  // Message management
+  /* -------------------------------------------------------------------------
+  Message management
+  ------------------------------------------------------------------------- */
   window.onmessage = async (event) => {
     if (event.data.pluginMessage.type === 'getAvatarURL') {
-      const url: string = `https://ogtojsonservice.vercel.app/api?url=https://github.com/${event.data.pluginMessage.alias}`;
-      await fetch(url)
-        .then((r) => r.json())
-        .then((a) => {
-          const ogurl: string = a.ogImage.url
-          return fetch(ogurl)
-            .then((r) => r.arrayBuffer())
-            .then((a) => {
-              parent.postMessage({ type: "message", pluginMessage: [{ 'layer': event.data.pluginMessage.avatarLayer.id, 'url': url, 'from': 'getAvatarURL', 'img': new Uint8Array(a)}] }, '*')
-            })
-        })
-        .catch((err) => console.error({ err }));
+      if (event.data.pluginMessage.avatar) {
+        fetchAvatar(event.data.pluginMessage.avatarLayer.id, event.data.pluginMessage.avatar, event.data.pluginMessage.avatar)
+      } else {
+        const url: string = `https://ogtojsonservice.vercel.app/api?url=${event.data.pluginMessage.config.ogurl}${event.data.pluginMessage.alias}`;
+        fetch(url)
+          .then((r) => r.json())
+          .then((a) => {
+            if (a.ogImage && a.ogImage.url) {
+              let ogurl: string = a.ogImage.url
+              fetchAvatar(event.data.pluginMessage.avatarLayer.id, url, ogurl)
+            } else {
+              postMessage(event.data.pluginMessage.avatarLayer.id, '', [])
+            }
+          })
+          .catch((err) => {
+            postMessage(event.data.pluginMessage.avatarLayer.id, '', [])
+            console.error({ err })
+          });
       }
+    }
+  }
+
+  const fetchAvatar = async (layer: string, url: string, ogurl: string) => {
+    fetch(ogurl)
+      .then((r) => r.arrayBuffer())
+      .then((a) => {
+        postMessage(layer, url, new Uint8Array(a))
+      })
+      .catch((err) => {
+        postMessage(layer, '', [])
+        console.error({ err })
+      });
+  }
+
+  const postMessage = (layer: string, url: string, img: ArrayLike<number> | ArrayBufferLike) => {
+    parent.postMessage({ type: "message", pluginMessage: [{ 'layer': layer, 'url': url, 'from': 'getAvatarURL', 'img': img }] }, '*')
   }
 
   return (
     <Container>
       <VerticalSpace space="large" />
-      <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>learn more</a></Text>
+      <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>Learn more</a></Text>
       <VerticalSpace space="small" />
       <TextboxMultiline
-        disabled={loading === true}
+        disabled={isLoading === true}
         id="chartData"
         rows={20}
         onValueInput={setChartData}
@@ -64,7 +96,7 @@ function Plugin() {
           Close
         </Button>
         <Button onClick={handleCreateChartButtonClick}
-          loading={loading === true}>
+          loading={isLoading === true}>
           Create chart
         </Button>
       </Inline>
