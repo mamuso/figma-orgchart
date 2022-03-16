@@ -146,12 +146,14 @@ export async function createCardComponent() {
     // Create name textbox if enabled
     if (config.name) {
       const cardComponentName = createTextbox('', 'Name', config.text.name.family, config.text.name.style, config.text.name.size, primarytextColor)
+      cardComponentName.layoutAlign = 'STRETCH'
       cardComponentTextFrame.appendChild(cardComponentName)
     }
 
     // Create alias textbox if enabled
     if (config.alias) {
       const cardComponentAlias = createTextbox('', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
+      cardComponentAlias.layoutAlign = 'STRETCH'
       cardComponentTextFrame.appendChild(cardComponentAlias)
     }
 
@@ -166,6 +168,7 @@ export async function createCardComponent() {
     if (config.meta) {
       const cardComponentMeta = createTextbox('', 'Meta', config.text.meta.family, config.text.meta.style, config.text.meta.size, secondarytextColor)
       cardComponentMeta.letterSpacing = { value: 0.3, unit: 'PIXELS' }
+      cardComponentMeta.layoutAlign = 'STRETCH'
       cardComponentTextFrame.appendChild(cardComponentMeta)
     }
     return cardComponent
