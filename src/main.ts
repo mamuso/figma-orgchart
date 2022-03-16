@@ -348,7 +348,7 @@ export async function process(key: any, value: any) {
       } else {
         // Create team textbox
         const teamTextbox = createTextbox(teamFrame.name.replace(`team – ${signature}`, ''), 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
-        teamTextbox.resizeWithoutConstraints(340, 18)
+        teamTextbox.resizeWithoutConstraints(320, 18)
         teamLayer.appendChild(teamTextbox)
       }
 
@@ -362,7 +362,7 @@ export async function process(key: any, value: any) {
       manager.visible = true
       manager.name = `${value.name}`
       teamFrame.appendChild(manager)
-      manager.resize(340, 74)
+      manager.resize(320, 74)
       // Fill the contents of the card
       fillCardContent(manager, value.name, value.alias, value.meta, value.avatar)
       break
