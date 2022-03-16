@@ -270,7 +270,7 @@ export function createTeamFrame(teamName: string, key: string) {
  * @param meta  - string with more information
  * @returns the transformed card
  */
-export async function fillCardContent(card: ComponentNode, name: string | undefined | null, alias: string | undefined | null, meta: string | undefined | null) {
+export async function fillCardContent(card: ComponentNode, name: string | undefined | null, alias: string | undefined | null, meta: string | undefined | null, avatar: string | undefined | null) {
   const textLayers: Array<TextNode> = card.findAllWithCriteria({ types: ['TEXT'] })
   const avatarLayer: EllipseNode = card.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.name === 'Avatar')[0]
 
@@ -300,7 +300,7 @@ export async function fillCardContent(card: ComponentNode, name: string | undefi
 
   if (config.avatar) {
     if (alias && alias != '') {
-      figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer, config })
+      figma.ui.postMessage({ type: 'getAvatarURL', alias, avatarLayer, config, avatar })
       avatarsRequested = avatarsRequested + 1
     }
   }
@@ -361,7 +361,7 @@ export async function process(key: any, value: any) {
       teamFrame.appendChild(manager)
       manager.resize(340, 74)
       // Fill the contents of the card
-      fillCardContent(manager, value.name, value.alias, value.meta)
+      fillCardContent(manager, value.name, value.alias, value.meta, value.avatar)
       break
 
     /* ------------------------------------------------------
@@ -379,7 +379,7 @@ export async function process(key: any, value: any) {
           designer.name = `${d.name}`
           teamFrame.appendChild(designer)
           // Fill the contents of the card
-          fillCardContent(designer, d.name, d.alias, d.meta)
+          fillCardContent(designer, d.name, d.alias, d.meta, d.avatar)
         }
       })
 
