@@ -384,7 +384,7 @@ export async function process(key: any, value: any) {
       })
 
       // Align to the right and reduce spacd
-      teamFrame.counterAxisAlignItems = 'MAX'
+      // teamFrame.counterAxisAlignItems = 'MAX'
       teamFrame.itemSpacing = 8
       break
   }
