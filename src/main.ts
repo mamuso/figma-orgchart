@@ -197,6 +197,9 @@ export function createTextbox(label: string, name: string, fontFamily: string, f
   textbox.characters = label
   textbox.fontSize = fontSize
   textbox.textAlignHorizontal = 'LEFT'
+  textbox.resizeWithoutConstraints(320, 10)
+  textbox.textAutoResize = 'HEIGHT'
+
   return textbox
 }
 
@@ -251,7 +254,7 @@ export function createTeamFrame(teamName: string, key: string) {
   frame.primaryAxisAlignItems = 'MIN'
   frame.counterAxisAlignItems = key === 'teams' ? 'MIN' : 'CENTER'
   frame.layoutMode = key === 'teams' ? 'HORIZONTAL' : 'VERTICAL'
-  frame.itemSpacing = key === 'teams' ? 80 : 16
+  frame.itemSpacing = key === 'teams' ? 80 : 12
   frame.paddingTop = 16
   frame.paddingBottom = 32
   // if the frame is the first one, we add different padding
@@ -347,9 +350,11 @@ export async function process(key: any, value: any) {
         })
       } else {
         // Create team textbox
-        const teamTextbox = createTextbox(teamFrame.name.replace(`team – ${signature}`, ''), 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
-        teamTextbox.resizeWithoutConstraints(320, 18)
-        teamLayer.appendChild(teamTextbox)
+        const teamName = teamFrame.name.replace(` team – ${signature}`, '')
+        if (teamName != '') {
+          const teamTextbox = createTextbox(teamName, 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
+          teamLayer.appendChild(teamTextbox)
+        }
       }
 
       break
@@ -365,30 +370,47 @@ export async function process(key: any, value: any) {
       manager.resize(320, 74)
       // Fill the contents of the card
       fillCardContent(manager, value.name, value.alias, value.meta, value.avatar)
+
       break
 
     /* ------------------------------------------------------
      Create designer entry
      ------------------------------------------------------ */
     case 'members':
-      value.forEach((d: any) => {
+      // container for all the members
+      const memberList = createTeamFrame('team members', 'team')
+      memberList.resizeWithoutConstraints(320, 12)
+      memberList.counterAxisSizingMode = 'FIXED'
+      memberList.counterAxisAlignItems = 'MAX'
+      memberList.paddingTop = memberList.paddingTop = 0
+      memberList.itemSpacing = 2
+      teamFrame.appendChild(memberList)
+
+      value.forEach((d: any, i: number, array: []) => {
         if (d.section) {
           const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
-          sectionBox.resizeWithoutConstraints(296, 18)
-          teamFrame.appendChild(sectionBox)
+          sectionBox.resizeWithoutConstraints(296, 10)
+          sectionBox.textAutoResize = 'HEIGHT'
+          memberList.appendChild(sectionBox)
         } else {
           const designer = cardComonent.clone()
           designer.visible = true
           designer.name = `${d.name}`
-          teamFrame.appendChild(designer)
+          memberList.appendChild(designer)
           // Fill the contents of the card
           fillCardContent(designer, d.name, d.alias, d.meta, d.avatar)
         }
+        // insert spacer if last element
+        // if (i === array.length - 1) {
+        //   // Spacer
+        //   const listSpacer = figma.createFrame()
+        //   listSpacer.name = 'Spacer'
+        //   listSpacer.resizeWithoutConstraints(8, 8)
+        //   listSpacer.fills = []
+        //   memberList.appendChild(listSpacer)
+        // }
       })
 
-      // Align to the right and reduce spacd
-      // teamFrame.counterAxisAlignItems = 'MAX'
-      teamFrame.itemSpacing = 8
       break
   }
 }
