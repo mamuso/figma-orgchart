@@ -386,7 +386,7 @@ export async function process(key: any, value: any) {
       memberList.itemSpacing = 2
       teamFrame.appendChild(memberList)
 
-      value.forEach((d: any, i: number, array: []) => {
+      value.forEach((d: any) => {
         if (d.section) {
           const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
           sectionBox.resizeWithoutConstraints(296, 10)
@@ -400,15 +400,6 @@ export async function process(key: any, value: any) {
           // Fill the contents of the card
           fillCardContent(designer, d.name, d.alias, d.meta, d.avatar)
         }
-        // insert spacer if last element
-        // if (i === array.length - 1) {
-        //   // Spacer
-        //   const listSpacer = figma.createFrame()
-        //   listSpacer.name = 'Spacer'
-        //   listSpacer.resizeWithoutConstraints(8, 8)
-        //   listSpacer.fills = []
-        //   memberList.appendChild(listSpacer)
-        // }
       })
 
       break

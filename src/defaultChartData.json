@@ -1,54 +1,132 @@
 {
   "config": {
-    "avatar": false,
-    "text": {
-      "name": { "family": "Comic Sans MS", "style": "Bold", "size": 16 }
-    }
+    "alias": false
   },
-  "team": "Team Rocket",
+  "team": "Dunder Mifflin – Scranton branch",
   "manager": {
-    "name": "John Smith",
-    "alias": "@mamuso",
-    "meta": ""
+    "name": "Ryan Howard",
+    "meta": "Vice President, North-East Region and Director of New Media",
+    "avatar": "https://static.wikia.nocookie.net/theoffice/images/e/e0/Character_-_RyanHoward.PNG/revision/latest/top-crop/width/200/height/150?cb=20200414174545"
   },
   "teams": [
     {
-      "team": "Pickle",
+      "team": "",
       "manager": {
-        "name": "John Smith",
-        "alias": "@mamuso",
-        "meta": ""
+        "name": "Michael Scott",
+        "meta": "Regional Manager",
+        "avatar": "https://static.wikia.nocookie.net/theoffice/images/b/be/Character_-_MichaelScott.PNG/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
       },
       "members": [
         {
-          "name": "John Smith",
-          "alias": "@mamuso",
-          "meta": ""
+          "name": "Dwight K. Schrute",
+          "meta": "Original Assistant Regional Manager",
+          "avatar": "https://static.wikia.nocookie.net/theoffice/images/c/c5/Dwight_.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
         },
         {
-          "name": "John Smith",
-          "alias": "@mamuso",
-          "meta": ""
+          "name": "Jim Halpert",
+          "meta": "Assistant Regional Manager",
+          "avatar": "https://static.wikia.nocookie.net/theoffice/images/e/e9/Character_-_JimHalpert.PNG/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
         }
-      ]
-    },
-    {
-      "team": "Octopus",
-      "manager": {
-        "name": "John Smith",
-        "alias": "@mamuso",
-        "meta": ""
-      },
-      "members": [
+      ],
+      "teams": [
         {
-          "name": "John Smith",
-          "alias": "@mamuso",
-          "meta": ""
+          "team": "Accounting",
+          "manager": {
+            "name": "Angela Martin",
+            "meta": "Senior Accountant",
+            "avatar": "https://static.wikia.nocookie.net/theoffice/images/0/0b/Angela_Martin.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+          },
+          "members": [
+            {
+              "name": "Kevin Malone",
+              "meta": "Accountant",
+              "avatar": "https://static.wikia.nocookie.net/theoffice/images/b/b2/2009Kevincropped.PNG/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+            },
+            {
+              "name": "Oscar Martinez",
+              "meta": "Accountant",
+              "avatar": "https://static.wikia.nocookie.net/theoffice/images/2/25/Oscar_Martinez.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+            },
+            {
+              "name": "Tom Peets",
+              "meta": "Accountant"
+            }
+          ]
+        },
+
+        {
+          "team": "Quality Control",
+          "manager": {
+            "name": "\"Creed Bratton\"",
+            "meta": "Quality Assurance Rep",
+            "avatar": "https://static.wikia.nocookie.net/theoffice/images/2/20/2009Creed.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+          }
         },
         {
-          "name": "John Smith",
-          "alias": "@mamuso",
-          "meta": ""
+          "team": "Customer Service",
+          "manager": {
+            "name": "Kelly Kapoor",
+            "meta": "Customer Service Rep",
+            "avatar": "https://static.wikia.nocookie.net/theoffice/images/6/69/Kelly_Kapoor.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+          }
+        },
+        {
+          "team": "Supplier Relations",
+          "manager": {
+            "name": "Meredith Palmer",
+            "meta": "Supplier Relations"
+          },
+          "members": [
+            {
+              "name": "Devon White",
+              "meta": "Supplier Relations"
+            }
+          ]
+        },
+        {
+          "team": "Reception",
+          "manager": {
+            "name": "Pam Beesly",
+            "meta": "Receptionist"
+          }
+        },
+        {
+          "team": "Sales",
+          "manager": {
+            "name": "Andy Bernard",
+            "meta": "Regional Director in Charge of Sales"
+          },
+          "members": [
+            {
+              "name": "Phyllis Vance",
+              "meta": "Sales Rep"
+            },
+            {
+              "name": "Stanley Hudson",
+              "meta": "Sales Rep"
+            }
+          ]
+        },
+        {
+          "team": "Warehouse",
+          "manager": {
+            "name": "Darryl Philbin",
+            "meta": "Warehouse Foreman"
+          },
+          "members": [
+            {
+              "name": "Jerry DiCanio",
+              "meta": "Warehouse"
+            },
+            {
+              "name": "Madge Madsen",
+              "meta": "Warehouse"
+            },
+            {
+              "name": "Lonnie Collins",
+              "meta": "Warehouse"
+            }
+          ]
         }
       ]
     }
