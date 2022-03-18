@@ -276,7 +276,7 @@ export function createTeamFrame(teamName: string, key: string) {
  * @param meta  - string with more information
  * @returns the transformed card
  */
-export async function fillCardContent(card: ComponentNode, name: string | undefined | null, alias: string | undefined | null, meta: string | undefined | null, avatar: string | undefined | null) {
+export async function fillCardContent(card: ComponentNode | InstanceNode, name: string | undefined | null, alias: string | undefined | null, meta: string | undefined | null, avatar: string | undefined | null) {
   const textLayers: Array<TextNode> = card.findAllWithCriteria({ types: ['TEXT'] })
   const avatarLayer: EllipseNode = card.findAllWithCriteria({ types: ['ELLIPSE'] }).filter((e) => e.name === 'Avatar')[0]
 
@@ -363,7 +363,7 @@ export async function process(key: any, value: any) {
      Create manager entry
      ------------------------------------------------------ */
     case 'manager':
-      const manager = cardComonent.clone()
+      const manager = cardComonent.createInstance()
       manager.visible = true
       manager.name = `${value.name}`
       teamFrame.appendChild(manager)
@@ -393,7 +393,7 @@ export async function process(key: any, value: any) {
           sectionBox.textAutoResize = 'HEIGHT'
           memberList.appendChild(sectionBox)
         } else {
-          const designer = cardComonent.clone()
+          const designer = cardComonent.createInstance()
           designer.visible = true
           designer.name = `${d.name}`
           memberList.appendChild(designer)
