@@ -1,132 +1,48 @@
 {
-  "config": {
-    "alias": false
-  },
-  "team": "Dunder Mifflin – Scranton branch",
+  "team": "Big team",
   "manager": {
-    "name": "Ryan Howard",
-    "meta": "Vice President, North-East Region and Director of New Media",
-    "avatar": "https://static.wikia.nocookie.net/theoffice/images/e/e0/Character_-_RyanHoward.PNG/revision/latest/top-crop/width/200/height/150?cb=20200414174545"
+    "name": "Jose Florido",
+    "alias": "joseflorido",
+    "meta": "Palo Alto, CA"
   },
   "teams": [
     {
-      "team": "",
+      "team": "Team A",
       "manager": {
-        "name": "Michael Scott",
-        "meta": "Regional Manager",
-        "avatar": "https://static.wikia.nocookie.net/theoffice/images/b/be/Character_-_MichaelScott.PNG/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+        "name": "Inma Rodenas",
+        "alias": "inmarodenas",
+        "meta": "Prague, Czech Republic"
       },
       "members": [
         {
-          "name": "Dwight K. Schrute",
-          "meta": "Original Assistant Regional Manager",
-          "avatar": "https://static.wikia.nocookie.net/theoffice/images/c/c5/Dwight_.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+          "name": "Andrea Espinosa",
+          "alias": "mamusino",
+          "meta": "Madrid, Spain"
         },
         {
-          "name": "Jim Halpert",
-          "meta": "Assistant Regional Manager",
-          "avatar": "https://static.wikia.nocookie.net/theoffice/images/e/e9/Character_-_JimHalpert.PNG/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
+          "name": "Adrián Mato",
+          "alias": "adrianmg",
+          "meta": "San Bruno, CA"
         }
-      ],
-      "teams": [
+      ]
+    },
+    {
+      "team": "Team B",
+      "manager": {
+        "name": "Asier Martínez",
+        "alias": "asiermartinez",
+        "meta": "Copenhague, Denmark"
+      },
+      "members": [
         {
-          "team": "Accounting",
-          "manager": {
-            "name": "Angela Martin",
-            "meta": "Senior Accountant",
-            "avatar": "https://static.wikia.nocookie.net/theoffice/images/0/0b/Angela_Martin.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
-          },
-          "members": [
-            {
-              "name": "Kevin Malone",
-              "meta": "Accountant",
-              "avatar": "https://static.wikia.nocookie.net/theoffice/images/b/b2/2009Kevincropped.PNG/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
-            },
-            {
-              "name": "Oscar Martinez",
-              "meta": "Accountant",
-              "avatar": "https://static.wikia.nocookie.net/theoffice/images/2/25/Oscar_Martinez.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
-            },
-            {
-              "name": "Tom Peets",
-              "meta": "Accountant"
-            }
-          ]
-        },
-
-        {
-          "team": "Quality Control",
-          "manager": {
-            "name": "\"Creed Bratton\"",
-            "meta": "Quality Assurance Rep",
-            "avatar": "https://static.wikia.nocookie.net/theoffice/images/2/20/2009Creed.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
-          }
+          "name": "Laura Martínez",
+          "alias": "killermuffin",
+          "meta": "Madrid, Spain"
         },
         {
-          "team": "Customer Service",
-          "manager": {
-            "name": "Kelly Kapoor",
-            "meta": "Customer Service Rep",
-            "avatar": "https://static.wikia.nocookie.net/theoffice/images/6/69/Kelly_Kapoor.jpg/revision/latest/top-crop/width/200/height/150?cb=20200413224550"
-          }
-        },
-        {
-          "team": "Supplier Relations",
-          "manager": {
-            "name": "Meredith Palmer",
-            "meta": "Supplier Relations"
-          },
-          "members": [
-            {
-              "name": "Devon White",
-              "meta": "Supplier Relations"
-            }
-          ]
-        },
-        {
-          "team": "Reception",
-          "manager": {
-            "name": "Pam Beesly",
-            "meta": "Receptionist"
-          }
-        },
-        {
-          "team": "Sales",
-          "manager": {
-            "name": "Andy Bernard",
-            "meta": "Regional Director in Charge of Sales"
-          },
-          "members": [
-            {
-              "name": "Phyllis Vance",
-              "meta": "Sales Rep"
-            },
-            {
-              "name": "Stanley Hudson",
-              "meta": "Sales Rep"
-            }
-          ]
-        },
-        {
-          "team": "Warehouse",
-          "manager": {
-            "name": "Darryl Philbin",
-            "meta": "Warehouse Foreman"
-          },
-          "members": [
-            {
-              "name": "Jerry DiCanio",
-              "meta": "Warehouse"
-            },
-            {
-              "name": "Madge Madsen",
-              "meta": "Warehouse"
-            },
-            {
-              "name": "Lonnie Collins",
-              "meta": "Warehouse"
-            }
-          ]
+          "name": "Open Role",
+          "alias": "",
+          "meta": ""
         }
       ]
     }
