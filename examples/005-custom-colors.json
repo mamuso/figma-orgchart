@@ -1,0 +1,58 @@
+{
+  "config": {
+    "color": {
+      "border": "26343A",
+      "background": "26343A",
+      "primarytext": "FFFFFF",
+      "secondarytext": "ABB4B9"
+    }
+  },
+  "team": "Main team",
+  "manager": {
+    "name": "Jose Florido",
+    "alias": "joseflorido",
+    "meta": "Palo Alto, CA"
+  },
+  "teams": [
+    {
+      "team": "Team A",
+      "manager": {
+        "name": "Inma Rodenas",
+        "alias": "inmarodenas",
+        "meta": "Prague, Czech Republic"
+      },
+      "members": [
+        {
+          "name": "Andrea Espinosa",
+          "alias": "mamusino",
+          "meta": "Madrid, Spain"
+        },
+        {
+          "name": "Adrián Mato",
+          "alias": "adrianmg",
+          "meta": "San Bruno, CA"
+        }
+      ]
+    },
+    {
+      "team": "Team B",
+      "manager": {
+        "name": "Asier Martínez",
+        "alias": "asiermartinez",
+        "meta": "Copenhague, Denmark"
+      },
+      "members": [
+        {
+          "name": "Laura Martínez",
+          "alias": "killermuffin",
+          "meta": "Madrid, Spain"
+        },
+        {
+          "name": "Open Role",
+          "alias": "",
+          "meta": ""
+        }
+      ]
+    }
+  ]
+}
