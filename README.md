@@ -1,6 +1,6 @@
 # Orgchart (a figma plugin)
 
-Create an orgchart in figma from a JSON file.
+Create an org chart in Figma from a JSON file.
 
 ## Run the plugin locally
 
@@ -17,7 +17,7 @@ If you run the plugin locally, you can edit `src/defautChartData.json` to change
 
 ## JSON data
 
-You need to provide a JSON of your team. You can use te following keys:
+You need to provide a JSON of your team. You can use the following keys:
 
 - `team`: name of the team
 - `manager`: will be represented at the top of the team
@@ -29,7 +29,7 @@ Each manager and member can have the following keys:
 
 - `name`: name of the person
 - `alias`: title alias of the person. By default, it will expect a GitHub alias and will try to fill the avatar
-- `meta`: additiona information that you'll like to provide
+- `meta`: additional information that you'll like to provide
 - `avatar`: you can override the avatar providing a URL of an image
 
 You can explore an example of JSON [here](https://jsoneditoronline.org/beta/#left=cloud.35c0637679714972b1d6e1db53e6008d).
@@ -60,29 +60,29 @@ By default, the plugin assumes the following configuration:
 }
 ```
 
-You can change the default configuration by addign a "config" key to the root of the JSON file. Check some of the examples below to learn how to change the configuration.
+You can change the default configuration by adding a `config` key to the root of the JSON file. Check some of the examples below to learn how to change the design of the chart.
 
 ## Examples
 
-### An orgchart with Avatar, Name, Alias and Meta
+### An org chart with Avatar, Name, Alias, and Meta
 
 - [001-avatar-name-alias-meta-github.json](examples/001-avatar-name-alias-meta-github.json)
 
 ![](assets/001-avatar-name-alias-meta-github.png)
 
-### Loading avatars from twitter
+### Loading avatars from Twitter
 
 - [002-avatar-name-alias-meta-twitter.json](examples/002-avatar-name-alias-meta-twitter.json)
 
 ![](assets/002-avatar-name-alias-meta-twitter.png)
 
-### Hide Alias field
+### Hidding Alias and Meta field
 
 - [003-avatar-name-github.json](examples/003-avatar-name-github.json)
 
 ![](assets/003-avatar-name-github.png)
 
-### Only show the name
+### Only shows the name
 
 - [004-name.json](examples/004-name.json)
 
