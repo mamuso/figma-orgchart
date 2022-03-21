@@ -1,4 +1,17 @@
 {
+  "figma-plugin": {
+    "editorType": [
+      "figma"
+    ],
+    "id": "figma-json-orgchart",
+    "name": "Orgchart",
+    "main": "src/main.ts",
+    "ui": "src/ui.tsx"
+  },
+  "scripts": {
+    "build": "build-figma-plugin --typecheck --minify",
+    "watch": "build-figma-plugin --typecheck --watch"
+  },
   "dependencies": {
     "@create-figma-plugin/ui": "^1.8.4",
     "@create-figma-plugin/utilities": "^1.8.4",
@@ -9,18 +22,5 @@
     "@create-figma-plugin/tsconfig": "^1.8.4",
     "@figma/plugin-typings": "^1.42.1",
     "typescript": "^4.6.2"
-  },
-  "scripts": {
-    "build": "build-figma-plugin --typecheck --minify",
-    "watch": "build-figma-plugin --typecheck --watch"
-  },
-  "figma-plugin": {
-    "editorType": [
-      "figma"
-    ],
-    "id": "figma-json-orgchart",
-    "name": "JSON to orgchart",
-    "main": "src/main.ts",
-    "ui": "src/ui.tsx"
   }
 }
