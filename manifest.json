@@ -4,7 +4,7 @@
     "figma"
   ],
   "id": "figma-json-orgchart",
-  "name": "JSON to orgchart",
+  "name": "Orgchart",
   "main": "build/main.js",
   "ui": "build/ui.js"
 }

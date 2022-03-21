@@ -1,0 +1,47 @@
+{
+  "config": {
+    "alias": false,
+    "meta": false
+  },
+  "team": "Main team",
+  "manager": {
+    "name": "Jose Florido",
+    "alias": "joseflorido"
+  },
+  "teams": [
+    {
+      "team": "Team A",
+      "manager": {
+        "name": "Inma Rodenas",
+        "alias": "inmarodenas"
+      },
+      "members": [
+        {
+          "name": "Andrea Espinosa",
+          "alias": "mamuso"
+        },
+        {
+          "name": "Adrián Mato",
+          "alias": "adrianmg"
+        }
+      ]
+    },
+    {
+      "team": "Team B",
+      "manager": {
+        "name": "Asier Martínez",
+        "alias": "asiermartinez"
+      },
+      "members": [
+        {
+          "name": "Laura Martínez",
+          "alias": "killermuffin"
+        },
+        {
+          "name": "Open Role",
+          "alias": ""
+        }
+      ]
+    }
+  ]
+}

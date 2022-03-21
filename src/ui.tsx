@@ -81,7 +81,7 @@ function Plugin() {
   return (
     <Container>
       <VerticalSpace space="large" />
-      <Text bold>JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>Learn more</a></Text>
+      <Text bold>Orgchart JSON – <a href="https://github.com/mamuso/figma-json-orgchart/" target='_blank'>Learn more</a></Text>
       <VerticalSpace space="small" />
       <TextboxMultiline
         disabled={isLoading === true}

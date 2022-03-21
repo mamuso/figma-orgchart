@@ -1,0 +1,41 @@
+{
+  "config": {
+    "alias": false,
+    "meta": false,
+    "avatar": false
+  },
+  "team": "Main team",
+  "manager": {
+    "name": "Jose Florido"
+  },
+  "teams": [
+    {
+      "team": "Team A",
+      "manager": {
+        "name": "Inma Rodenas"
+      },
+      "members": [
+        {
+          "name": "Andrea Espinosa"
+        },
+        {
+          "name": "Adrián Mato"
+        }
+      ]
+    },
+    {
+      "team": "Team B",
+      "manager": {
+        "name": "Asier Martínez"
+      },
+      "members": [
+        {
+          "name": "Laura Martínez"
+        },
+        {
+          "name": "Open Role"
+        }
+      ]
+    }
+  ]
+}
