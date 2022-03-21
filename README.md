@@ -17,7 +17,22 @@ If you run the plugin locally, you can edit `src/defautChartData.json` to change
 
 ## JSON data
 
-https://jsoneditoronline.org/beta/#left=cloud.35c0637679714972b1d6e1db53e6008d
+You need to provide a JSON of your team. You can use te following keys:
+
+- `team`: name of the team
+- `manager`: will be represented at the top of the team
+- `members`: array of members of a team
+- `teams`: array of teams
+- `section`: it will create a label with the text that you provide
+
+Each manager and member can have the following keys:
+
+- `name`: name of the person
+- `alias`: title alias of the person. By default, it will expect a GitHub alias and will try to fill the avatar
+- `meta`: additiona information that you'll like to provide
+- `avatar`: you can override the avatar providing a URL of an image
+
+You can explore an example of JSON [here](https://jsoneditoronline.org/beta/#left=cloud.35c0637679714972b1d6e1db53e6008d).
 
 ## Aditional configurations
 
@@ -67,7 +82,7 @@ You can change the default configuration by addign a "config" key to the root of
 
 ![](assets/003-avatar-name-github.png)
 
-### No name
+### Only show the name
 
 - [004-name.json](examples/004-name.json)
 
@@ -78,3 +93,21 @@ You can change the default configuration by addign a "config" key to the root of
 - [005-custom-avatar.json](examples/005-custom-avatar.json)
 
 ![](assets/005-custom-avatar.png)
+
+### Using custom colors
+
+- [006-custom-colors.json](examples/006-custom-colors.json)
+
+![](assets/006-custom-colors.png)
+
+### Using custom fonts
+
+- [007-custom-fonts.json](examples/007-custom-fonts.json)
+
+![](assets/007-custom-fonts.png)
+
+### Sections
+
+- [008-section.json](examples/008-section.json)
+
+![](assets/008-section.png)
