@@ -57,6 +57,24 @@ You can change the default configuration by addign a "config" key to the root of
 
 ### Loading avatars from twitter
 
-- [001-avatar-name-alias-meta-github.json](examples/002-avatar-name-alias-meta-twitter.json)
+- [002-avatar-name-alias-meta-twitter.json](examples/002-avatar-name-alias-meta-twitter.json)
 
 ![](assets/002-avatar-name-alias-meta-twitter.png)
+
+### Hide Alias field
+
+- [003-avatar-name-github.json](examples/003-avatar-name-github.json)
+
+![](assets/003-avatar-name-github.png)
+
+### No name
+
+- [004-name.json](examples/004-name.json)
+
+![](assets/004-name.png)
+
+### Loading avatars from URLs
+
+- [005-custom-avatar.json](examples/005-custom-avatar.json)
+
+![](assets/005-custom-avatar.png)
