@@ -1,48 +1,121 @@
 {
-  "team": "Big team",
+  "team": "Main team",
   "manager": {
-    "name": "Jose Florido",
-    "alias": "joseflorido",
-    "meta": "Palo Alto, CA"
+    "name": "Team member",
+    "alias": "",
+    "meta": "Metadata"
   },
   "teams": [
     {
       "team": "Team A",
       "manager": {
-        "name": "Inma Rodenas",
-        "alias": "inmarodenas",
-        "meta": "Prague, Czech Republic"
+        "name": "Team member",
+        "alias": "",
+        "meta": "Metadata"
       },
       "members": [
         {
-          "name": "Andrea Espinosa",
-          "alias": "mamusino",
-          "meta": "Madrid, Spain"
+          "name": "Team member",
+          "alias": "",
+          "meta": "Metadata"
         },
         {
-          "name": "Adrián Mato",
-          "alias": "adrianmg",
-          "meta": "San Bruno, CA"
+          "name": "Team member",
+          "alias": "",
+          "meta": "Metadata"
+        },
+        {
+          "name": "Team member",
+          "alias": "",
+          "meta": "Metadata"
         }
       ]
     },
     {
       "team": "Team B",
       "manager": {
-        "name": "Asier Martínez",
-        "alias": "asiermartinez",
-        "meta": "Copenhague, Denmark"
+        "name": "Team member",
+        "alias": "",
+        "meta": "Metadata"
       },
       "members": [
         {
-          "name": "Laura Martínez",
-          "alias": "killermuffin",
-          "meta": "Madrid, Spain"
+          "name": "Team member",
+          "alias": "",
+          "meta": "Metadata"
         },
         {
-          "name": "Open Role",
+          "name": "Team member",
           "alias": "",
-          "meta": ""
+          "meta": "Metadata"
+        }
+      ]
+    },
+    {
+      "team": "Team C",
+      "manager": {
+        "name": "Team member",
+        "alias": "",
+        "meta": "Metadata"
+      },
+      "members": [
+        {
+          "name": "Team member",
+          "alias": "",
+          "meta": "Metadata"
+        },
+        { "section": "Section" },
+        {
+          "name": "Team member",
+          "alias": "",
+          "meta": "Metadata"
+        }
+      ],
+      "teams": [
+        {
+          "team": "Subteam A",
+          "manager": {
+            "name": "Team member",
+            "alias": "",
+            "meta": "Metadata"
+          },
+          "members": [
+            {
+              "name": "Team member",
+              "alias": "",
+              "meta": "Metadata"
+            },
+            {
+              "name": "Team member",
+              "alias": "",
+              "meta": "Metadata"
+            },
+            {
+              "name": "Team member",
+              "alias": "",
+              "meta": "Metadata"
+            }
+          ]
+        },
+        {
+          "team": "Subteam B",
+          "manager": {
+            "name": "Team member",
+            "alias": "",
+            "meta": "Metadata"
+          },
+          "members": [
+            {
+              "name": "Team member",
+              "alias": "",
+              "meta": "Metadata"
+            },
+            {
+              "name": "Team member",
+              "alias": "",
+              "meta": "Metadata"
+            }
+          ]
         }
       ]
     }
