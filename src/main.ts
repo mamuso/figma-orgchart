@@ -21,7 +21,7 @@ let config: ChartConfig = {
     secondarytext: 'A1A6AA',
   },
   text: {
-    team: { family: 'Helvetica Neue', style: 'Bold', size: 20 },
+    label: { family: 'Helvetica Neue', style: 'Bold', size: 20 },
     name: { family: 'Helvetica Neue', style: 'Bold', size: 16 },
     alias: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
     meta: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
@@ -43,7 +43,7 @@ let backgroundColor: RGB
 let nameFont: Promise<void>
 let aliasFont: Promise<void>
 let metaFont: Promise<void>
-let teamFont: Promise<void>
+let labelFont: Promise<void>
 
 /**
  * Utility variables
@@ -93,7 +93,7 @@ export function setConfiguration(configuration: ChartConfig) {
   nameFont = figma.loadFontAsync({ family: config.text.name.family, style: config.text.name.style })
   aliasFont = figma.loadFontAsync({ family: config.text.alias.family, style: config.text.alias.style })
   metaFont = figma.loadFontAsync({ family: config.text.meta.family, style: config.text.meta.style })
-  teamFont = figma.loadFontAsync({ family: config.text.team.family, style: config.text.team.style })
+  labelFont = figma.loadFontAsync({ family: config.text.label.family, style: config.text.label.style })
   return config
 }
 
@@ -104,7 +104,7 @@ export function setConfiguration(configuration: ChartConfig) {
  */
 export async function createCardComponent() {
   // All fonts must be loaded before we can create the component
-  const card = await Promise.all([nameFont, aliasFont, metaFont, teamFont]).then(() => {
+  const card = await Promise.all([nameFont, aliasFont, metaFont, labelFont]).then(() => {
     // Create the card component frame
     const cardComponent = figma.createComponent()
     cardComponent.name = 'Card'
@@ -352,7 +352,7 @@ export async function process(key: any, value: any) {
         // Create team textbox
         const teamName = teamFrame.name.replace(` team – ${signature}`, '')
         if (teamName != '') {
-          const teamTextbox = createTextbox(teamName, 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
+          const teamTextbox = createTextbox(teamName, 'Team', config.text.label.family, config.text.label.style, config.text.label.size, primarytextColor)
           teamLayer.appendChild(teamTextbox)
         }
       }
@@ -388,7 +388,7 @@ export async function process(key: any, value: any) {
 
       value.forEach((d: any) => {
         if (d.section) {
-          const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.team.family, config.text.team.style, config.text.team.size, primarytextColor)
+          const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.label.family, config.text.label.style, config.text.label.size, primarytextColor)
           sectionBox.resizeWithoutConstraints(296, 10)
           sectionBox.textAutoResize = 'HEIGHT'
           memberList.appendChild(sectionBox)
@@ -452,7 +452,7 @@ export default async function () {
     // Traverse JSON
     await traverse(chartDataObject).then(() => {
       // If we are not going to paint the avatar, let's close the plugin
-      if (!config.avatar) figma.closePlugin()
+      if (!config.avatar || avatarsRequested === 0) figma.closePlugin()
     })
   })
 
