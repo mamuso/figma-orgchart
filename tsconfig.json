@@ -4,6 +4,7 @@
     "typeRoots": ["node_modules/@figma", "node_modules/@types"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
-  },
+    "useUnknownInCatchVariables": false
+},
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

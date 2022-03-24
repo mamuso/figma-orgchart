@@ -1,5 +1,6 @@
 import { convertHexColorToRgbColor, once, showUI } from '@create-figma-plugin/utilities'
 import { ChartConfig, CloseHandler, CreateChartHandler } from './types'
+import yaml from 'js-yaml'
 
 /** -------------------------------------------------------------------------
  * Variables
@@ -440,7 +441,8 @@ export default async function () {
     })
 
     // Parse chart data
-    const chartDataObject = JSON.parse(chartData)
+    // const chartDataObject = JSON.parse(chartData)
+    const chartDataObject = yaml.load(chartData) as any
 
     // Read configuration
     setConfiguration(chartDataObject.config)
