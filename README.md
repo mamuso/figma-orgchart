@@ -53,6 +53,7 @@ By default, the plugin assumes the following configuration:
   },
   "text": {
     "label": { "family": "Helvetica Neue", "style": "Bold", "size": 20 },
+    "section": { "family": "Helvetica Neue", "style": "Bold", "size": 18 },
     "name": { "family": "Helvetica Neue", "style": "Bold", "size": 16 },
     "alias": { "family": "Helvetica Neue", "style": "Regular", "size": 12 },
     "meta": { "family": "Helvetica Neue", "style": "Regular", "size": 12 }
