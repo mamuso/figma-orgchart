@@ -1,5 +1,6 @@
 import { convertHexColorToRgbColor, once, showUI } from '@create-figma-plugin/utilities'
 import { ChartConfig, CloseHandler, CreateChartHandler } from './types'
+import yaml from 'js-yaml'
 
 /** -------------------------------------------------------------------------
  * Variables
@@ -22,6 +23,7 @@ let config: ChartConfig = {
   },
   text: {
     label: { family: 'Helvetica Neue', style: 'Bold', size: 20 },
+    section: { family: 'Helvetica Neue', style: 'Bold', size: 18 },
     name: { family: 'Helvetica Neue', style: 'Bold', size: 16 },
     alias: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
     meta: { family: 'Helvetica Neue', style: 'Regular', size: 12 },
@@ -388,9 +390,10 @@ export async function process(key: any, value: any) {
 
       value.forEach((d: any) => {
         if (d.section) {
-          const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.label.family, config.text.label.style, config.text.label.size, primarytextColor)
-          sectionBox.resizeWithoutConstraints(296, 10)
-          sectionBox.textAutoResize = 'HEIGHT'
+          const sectionBox = createTextbox(`${d.section}`, 'Team', config.text.section.family, config.text.section.style, config.text.section.size, primarytextColor)
+          sectionBox.resizeWithoutConstraints(296, config.text.section.size * 1.8)
+          // sectionBox.textAutoResize = 'HEIGHT'
+          sectionBox.textAlignVertical = 'CENTER'
           memberList.appendChild(sectionBox)
         } else {
           const designer = cardComonent.createInstance()
@@ -440,7 +443,8 @@ export default async function () {
     })
 
     // Parse chart data
-    const chartDataObject = JSON.parse(chartData)
+    // const chartDataObject = JSON.parse(chartData)
+    const chartDataObject = yaml.load(chartData) as any
 
     // Read configuration
     setConfiguration(chartDataObject.config)
