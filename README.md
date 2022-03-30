@@ -1,6 +1,6 @@
-# Orgchart (a figma plugin)
+# Orgchart – a figma plugin
 
-Create an org chart in Figma from a JSON file.
+Create an org chart in Figma from a JSON or a YAML file.
 
 ## Run the plugin locally
 

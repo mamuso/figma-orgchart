@@ -3,7 +3,7 @@ import { emit } from '@create-figma-plugin/utilities'
 import { h } from 'preact'
 import { useCallback, useState } from 'preact/hooks'
 import { CloseHandler, CreateChartHandler } from './types'
-import defaultChartData from './defaultChartData.json'
+import defaultChartData from "./defaultChartData.yml"
 
 function Plugin() {
   const [chartData, setChartData] = useState<string>('')
@@ -12,7 +12,8 @@ function Plugin() {
   /* -------------------------------------------------------------------------
   Loading example data from defaultChartData.json
   ------------------------------------------------------------------------- */
-  if (chartData == '') setChartData(JSON.stringify(defaultChartData, null, "\t"))
+// if (chartData == '') setChartData(JSON.stringify(defaultChartData, null, "\t"))
+  if (chartData == '') setChartData(defaultChartData)
 
   /* -------------------------------------------------------------------------
   Submit data chart and kick off the drawing process

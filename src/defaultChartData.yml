@@ -1,0 +1,89 @@
+team: Main team
+manager:
+  name: Team manager
+  alias: ''
+  meta: Metadata
+teams:
+  - team: Team A
+    manager:
+      name: Team manager
+      alias: ''
+      meta: Metadata
+    members:
+      - name: Team member 1
+        alias: ''
+        meta: Metadata
+      - name: Team member 2
+        alias: ''
+        meta: Metadata
+      - name: Team member 3
+        alias: ''
+        meta: Metadata
+
+  - team: Team B
+    manager:
+      name: Team manager
+      alias: ''
+      meta: Metadata
+    members:
+      - name: Team member 1
+        alias: ''
+        meta: Metadata
+      - name: Team member 2
+        alias: ''
+        meta: Metadata
+
+  - team: Team C
+    manager:
+      name: Team manager
+      alias: ''
+      meta: Metadata
+    members:
+      - name: Team member 1
+        alias: ''
+        meta: Metadata
+      - name: Team member 2
+        alias: ''
+        meta: Metadata
+      - name: Team member 3
+        alias: ''
+        meta: Metadata
+    teams:
+      - team: Subteam A
+        manager:
+          name: Team manager
+          alias: ''
+          meta: Metadata
+        members:
+          - name: Team member 1
+            alias: ''
+            meta: Metadata
+          - name: Team member 2
+            alias: ''
+            meta: Metadata
+          - name: Team member 3
+            alias: ''
+            meta: Metadata
+
+      - team: Subteam B
+        manager:
+          name: Team manager
+          alias: ''
+          meta: Metadata
+        members:
+          - name: Team member 1
+            alias: ''
+            meta: Metadata
+
+      - team: Subteam C
+        manager:
+          name: Team manager
+          alias: ''
+          meta: Metadata
+        members:
+          - name: Team member 1
+            alias: ''
+            meta: Metadata
+          - name: Team member 2
+            alias: ''
+            meta: Metadata
