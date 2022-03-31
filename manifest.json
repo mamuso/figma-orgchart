@@ -1,9 +1,7 @@
 {
   "api": "1.0.0",
-  "editorType": [
-    "figma"
-  ],
-  "id": "figma-json-orgchart",
+  "editorType": ["figma"],
+  "id": "1091247524080548244",
   "name": "Orgchart",
   "main": "build/main.js",
   "ui": "build/ui.js"
