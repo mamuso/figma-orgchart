@@ -13,9 +13,9 @@ Create an org chart in Figma from a JSON or a YAML file.
 
 If you run the plugin locally, you can edit `src/defautChartData.json` to change the default chart data.
 
-## JSON data
+## JSON/YAML data
 
-You need to provide a JSON of your team. You can use the following keys:
+You need to provide a JSON or a YAML with your team structure. You can use the following keys:
 
 - `team`: name of the team
 - `manager`: will be represented at the top of the team
@@ -29,8 +29,6 @@ Each manager and member can have the following keys:
 - `alias`: title alias of the person. By default, it will expect a GitHub alias and will try to fill the avatar
 - `meta`: additional information that you'll like to provide
 - `avatar`: you can override the avatar providing a URL of an image
-
-You can explore an example of JSON [here](https://jsoneditoronline.org/beta/#left=cloud.35c0637679714972b1d6e1db53e6008d).
 
 ## Aditional configurations
 
@@ -59,7 +57,7 @@ By default, the plugin assumes the following configuration:
 }
 ```
 
-You can change the default configuration by adding a `config` key to the root of the JSON file. Check some of the examples below to learn how to change the design of the chart.
+You can change the default configuration by adding a `config` key to the root of the JSON/YAML file. Check some of the examples below to learn how to change the design of the chart.
 
 ## Examples
 
