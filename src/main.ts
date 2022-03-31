@@ -107,72 +107,76 @@ export function setConfiguration(configuration: ChartConfig) {
 export async function createCardComponent() {
   // All fonts must be loaded before we can create the component
   const card = await Promise.all([nameFont, aliasFont, metaFont, labelFont]).then(() => {
-    // Create the card component frame
-    const cardComponent = figma.createComponent()
-    cardComponent.name = 'Card'
-    cardComponent.fills = [{ type: 'SOLID', color: backgroundColor }]
-    cardComponent.strokes = [{ type: 'SOLID', color: borderColor }]
-    cardComponent.strokeAlign = 'INSIDE'
-    cardComponent.strokeWeight = 2
-    cardComponent.cornerRadius = 8
-    cardComponent.resizeWithoutConstraints(280, 74)
-    cardComponent.layoutMode = 'HORIZONTAL'
-    cardComponent.layoutGrow = 0
-    cardComponent.counterAxisAlignItems = 'CENTER'
-    cardComponent.itemSpacing = 16
-    cardComponent.paddingTop = 12
-    cardComponent.paddingRight = 20
-    cardComponent.paddingBottom = 12
-    cardComponent.paddingLeft = 20
+    let cardComponent: ComponentNode = figma.currentPage.findAllWithCriteria({ types: ['COMPONENT'] }).filter((e) => e.name === 'FigmaOrgchartCard')[0]
+    if (!cardComponent) {
+      // Create the card component and
+      cardComponent = figma.createComponent()
+      cardComponent.name = 'FigmaOrgchartCard'
+      cardComponent.fills = [{ type: 'SOLID', color: backgroundColor }]
+      cardComponent.strokes = [{ type: 'SOLID', color: borderColor }]
+      cardComponent.strokeAlign = 'INSIDE'
+      cardComponent.strokeWeight = 2
+      cardComponent.cornerRadius = 8
+      cardComponent.resizeWithoutConstraints(280, 74)
+      cardComponent.layoutMode = 'HORIZONTAL'
+      cardComponent.layoutGrow = 0
+      cardComponent.counterAxisAlignItems = 'CENTER'
+      cardComponent.itemSpacing = 16
+      cardComponent.paddingTop = 12
+      cardComponent.paddingRight = 20
+      cardComponent.paddingBottom = 12
+      cardComponent.paddingLeft = 20
 
-    // Create Avatar if enabled
-    if (config.avatar) {
-      const avatarComponent = figma.createEllipse()
-      avatarComponent.name = 'Avatar'
-      avatarComponent.resizeWithoutConstraints(40, 40)
-      avatarComponent.fills = [{ type: 'SOLID', color: borderColor }]
-      avatarComponent.strokes = [{ type: 'SOLID', color: fallbackColor, opacity: 0.12 }]
-      avatarComponent.strokeAlign = 'INSIDE'
-      avatarComponent.strokeWeight = 1
-      cardComponent.appendChild(avatarComponent)
+      // Create Avatar if enabled
+      if (config.avatar) {
+        const avatarComponent = figma.createEllipse()
+        avatarComponent.name = 'Avatar'
+        avatarComponent.resizeWithoutConstraints(40, 40)
+        avatarComponent.fills = [{ type: 'SOLID', color: borderColor }]
+        avatarComponent.strokes = [{ type: 'SOLID', color: fallbackColor, opacity: 0.12 }]
+        avatarComponent.strokeAlign = 'INSIDE'
+        avatarComponent.strokeWeight = 1
+        cardComponent.appendChild(avatarComponent)
+      }
+
+      // Create text frame
+      const cardComponentTextFrame = figma.createFrame()
+      cardComponentTextFrame.name = 'TextFrame'
+      cardComponentTextFrame.resizeWithoutConstraints(200, 74)
+      cardComponentTextFrame.layoutMode = 'VERTICAL'
+      cardComponentTextFrame.fills = []
+      cardComponent.appendChild(cardComponentTextFrame)
+
+      // Create name textbox if enabled
+      if (config.name) {
+        const cardComponentName = createTextbox('', 'Name', config.text.name.family, config.text.name.style, config.text.name.size, primarytextColor)
+        cardComponentName.layoutAlign = 'STRETCH'
+        cardComponentTextFrame.appendChild(cardComponentName)
+      }
+
+      // Create alias textbox if enabled
+      if (config.alias) {
+        const cardComponentAlias = createTextbox('', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
+        cardComponentAlias.layoutAlign = 'STRETCH'
+        cardComponentTextFrame.appendChild(cardComponentAlias)
+      }
+
+      // Create spacer
+      const cardComponentSpacer = figma.createFrame()
+      cardComponentSpacer.name = 'Spacer'
+      cardComponentSpacer.resizeWithoutConstraints(4, 4)
+      cardComponentSpacer.fills = []
+      cardComponentTextFrame.appendChild(cardComponentSpacer)
+
+      // Create meta textbox if enabled
+      if (config.meta) {
+        const cardComponentMeta = createTextbox('', 'Meta', config.text.meta.family, config.text.meta.style, config.text.meta.size, secondarytextColor)
+        cardComponentMeta.letterSpacing = { value: 0.3, unit: 'PIXELS' }
+        cardComponentMeta.layoutAlign = 'STRETCH'
+        cardComponentTextFrame.appendChild(cardComponentMeta)
+      }
     }
 
-    // Create text frame
-    const cardComponentTextFrame = figma.createFrame()
-    cardComponentTextFrame.name = 'TextFrame'
-    cardComponentTextFrame.resizeWithoutConstraints(200, 74)
-    cardComponentTextFrame.layoutMode = 'VERTICAL'
-    cardComponentTextFrame.fills = []
-    cardComponent.appendChild(cardComponentTextFrame)
-
-    // Create name textbox if enabled
-    if (config.name) {
-      const cardComponentName = createTextbox('', 'Name', config.text.name.family, config.text.name.style, config.text.name.size, primarytextColor)
-      cardComponentName.layoutAlign = 'STRETCH'
-      cardComponentTextFrame.appendChild(cardComponentName)
-    }
-
-    // Create alias textbox if enabled
-    if (config.alias) {
-      const cardComponentAlias = createTextbox('', 'Alias', config.text.alias.family, config.text.alias.style, config.text.alias.size, primarytextColor)
-      cardComponentAlias.layoutAlign = 'STRETCH'
-      cardComponentTextFrame.appendChild(cardComponentAlias)
-    }
-
-    // Create spacer
-    const cardComponentSpacer = figma.createFrame()
-    cardComponentSpacer.name = 'Spacer'
-    cardComponentSpacer.resizeWithoutConstraints(4, 4)
-    cardComponentSpacer.fills = []
-    cardComponentTextFrame.appendChild(cardComponentSpacer)
-
-    // Create meta textbox if enabled
-    if (config.meta) {
-      const cardComponentMeta = createTextbox('', 'Meta', config.text.meta.family, config.text.meta.style, config.text.meta.size, secondarytextColor)
-      cardComponentMeta.letterSpacing = { value: 0.3, unit: 'PIXELS' }
-      cardComponentMeta.layoutAlign = 'STRETCH'
-      cardComponentTextFrame.appendChild(cardComponentMeta)
-    }
     return cardComponent
   })
   return card

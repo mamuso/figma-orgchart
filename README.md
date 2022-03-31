@@ -1,10 +1,8 @@
-# Orgchart (a figma plugin)
+# Orgchart – a figma plugin
 
-Create an org chart in Figma from a JSON file.
+Create an org chart in Figma from a JSON or a YAML file.
 
 ## Run the plugin locally
-
-TODO: Post the plugin to the Figma community. In the meantime, you can run the plugin locally:
 
 - Clone the repository: `git clone https://github.com/mamuso/figma-orgchart.git`
 - Go to the directory: `cd figma-orgchart`
@@ -68,47 +66,55 @@ You can change the default configuration by adding a `config` key to the root of
 ### An org chart with Avatar, Name, Alias, and Meta
 
 - [001-avatar-name-alias-meta-github.json](examples/001-avatar-name-alias-meta-github.json)
+- [001-avatar-name-alias-meta-github.yml](examples/001-avatar-name-alias-meta-github.yml)
 
 ![](assets/001-avatar-name-alias-meta-github.png)
 
 ### Loading avatars from Twitter
 
 - [002-avatar-name-alias-meta-twitter.json](examples/002-avatar-name-alias-meta-twitter.json)
+- [002-avatar-name-alias-meta-twitter.yml](examples/002-avatar-name-alias-meta-twitter.yml)
 
 ![](assets/002-avatar-name-alias-meta-twitter.png)
 
 ### Hidding Alias and Meta field
 
 - [003-avatar-name-github.json](examples/003-avatar-name-github.json)
+- [003-avatar-name-github.yml](examples/003-avatar-name-github.yml)
 
 ![](assets/003-avatar-name-github.png)
 
 ### Only shows the name
 
 - [004-name.json](examples/004-name.json)
+- [004-name.yml](examples/004-name.yml)
 
 ![](assets/004-name.png)
 
 ### Loading avatars from URLs
 
 - [005-custom-avatar.json](examples/005-custom-avatar.json)
+- [005-custom-avatar.yml](examples/005-custom-avatar.yml)
 
 ![](assets/005-custom-avatar.png)
 
 ### Using custom colors
 
 - [006-custom-colors.json](examples/006-custom-colors.json)
+- [006-custom-colors.yml](examples/006-custom-colors.yml)
 
 ![](assets/006-custom-colors.png)
 
 ### Using custom fonts
 
 - [007-custom-fonts.json](examples/007-custom-fonts.json)
+- [007-custom-fonts.yml](examples/007-custom-fonts.yml)
 
 ![](assets/007-custom-fonts.png)
 
 ### Sections
 
 - [008-section.json](examples/008-section.json)
+- [008-section.yml](examples/008-section.yml)
 
 ![](assets/008-section.png)

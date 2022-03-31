@@ -1,4 +1,7 @@
 {
+  "config": {
+    "ogurl": "https://twitter.com/"
+  },
   "team": "Main team",
   "manager": {
     "name": "Jose Florido",
